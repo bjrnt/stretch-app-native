@@ -4,18 +4,29 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web"
   },
   "dependencies": {
+    "@gluestack-style/react": "^1.0.41",
+    "@gluestack-ui/config": "^1.0.12",
+    "@gluestack-ui/themed": "^1.0.36",
     "expo": "~49.0.15",
     "expo-status-bar": "~1.6.0",
+    "lucide-react-native": "^0.311.0",
     "react": "18.2.0",
-    "react-native": "0.72.6"
+    "react-native": "0.72.6",
+    "react-native-svg": "^13.4.0",
+    "expo-splash-screen": "~0.20.5"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@tsconfig/react-native": "^3.0.2",
+    "@types/jest": "^29.5.11",
+    "@types/react": "^18.2.48",
+    "@types/react-test-renderer": "^18.0.7",
+    "typescript": "^5.3.3"
   },
   "private": true
 }
