@@ -22,14 +22,14 @@ const routine = new RoutineBuilder()
   .withDefaultLength(60)
   // .withDefaultLength(5)
   .withStretches([
-    { eachSide: true, name: 'Hip Flexor' },
-    { name: 'Elephant Walks' },
+    { eachSide: true, name: 'Hip Flexor Stretch' },
+    { name: 'Elephant Walk' },
     { name: 'Pancake Stretch' },
-    { eachSide: true, name: 'Figure Four' },
+    { eachSide: true, name: 'Figure Four Stretch' },
     { name: 'Lat Stretch' },
     { eachSide: true, name: 'Side Stretch' },
-    { eachSide: true, name: 'Twist' },
-    { eachSide: true, name: 'Pigeon' },
+    { eachSide: true, name: 'Seated Twist Stretch' },
+    { eachSide: true, name: 'Pigeon Pose' },
     { eachSide: true, name: 'Goal Post Arms' },
     { eachSide: true, name: 'Calf Stretch' },
   ])

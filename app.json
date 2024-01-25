@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "stretch-app-native",
-    "slug": "stretch-app-native",
+    "slug": "stretchappnative",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -16,16 +16,29 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.bjrnt.strech"
+      "bundleIdentifier": "com.bjrnt.strech",
+      "runtimeVersion": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "runtimeVersion": {
+        "policy": "appVersion"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5b67205d-81cd-4579-bd8e-9d28275e717c"
+      }
+    },
+    "owner": "bjrnt",
+    "updates": {
+      "url": "https://u.expo.dev/5b67205d-81cd-4579-bd8e-9d28275e717c"
     }
   }
 }
