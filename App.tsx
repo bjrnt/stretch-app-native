@@ -23,7 +23,9 @@ const routine = new RoutineBuilder()
   // .withDefaultLength(5)
   .withStretches([
     { eachSide: true, name: 'Hip Flexor Stretch' },
-    { name: 'Elephant Walk' },
+    { name: 'Elephant Walk', duration: 75 },
+    { name: 'Hamstring Stretch', duration: 30 },
+    { name: 'Neck Stretch', eachSide: true },
     { name: 'Pancake Stretch' },
     { eachSide: true, name: 'Figure Four Stretch' },
     { name: 'Lat Stretch' },
