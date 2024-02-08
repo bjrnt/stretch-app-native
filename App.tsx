@@ -23,7 +23,7 @@ const routine = new RoutineBuilder()
   // .withDefaultLength(5)
   .withStretches([
     { eachSide: true, name: 'Hip Flexor Stretch' },
-    { name: 'Elephant Walk', duration: 75 },
+    { name: 'Elephant Walk' },
     { name: 'Hamstring Stretch', duration: 30 },
     { name: 'Neck Stretch', eachSide: true },
     { name: 'Pancake Stretch' },
@@ -47,7 +47,7 @@ export default function App() {
 
   return (
     <GluestackUIProvider config={config} colorMode="dark">
-      <Box bg="$trueGray900">
+      <Box bg="$trueGray900" minHeight="100%">
         <ScrollView padding="$2" paddingTop="$12">
           <StatusBar style="auto" />
           <VStack space="sm">
