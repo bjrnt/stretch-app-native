@@ -1,10 +1,10 @@
-import Routine from './Routine'
 import Stretch, { StretchConfig } from './Stretch'
 
 export default class RoutineBuilder {
   private _stretches: StretchConfig[] = []
   private _sets: number = 1
   private _defaultLength?: number
+  private _overrideLength?: number
 
   public withStretches(stretches: StretchConfig[]): RoutineBuilder {
     this._stretches = stretches
@@ -21,7 +21,12 @@ export default class RoutineBuilder {
     return this
   }
 
-  public build(): Routine {
+  public withOverridenLength(length: number): RoutineBuilder {
+    this._overrideLength = length
+    return this
+  }
+
+  public build(): Stretch[] {
     const stretches = Array.from({ length: this._sets }, (_, i) =>
       this._stretches.map((stretch) => {
         if (this._sets > 1) {
@@ -48,15 +53,13 @@ export default class RoutineBuilder {
         return stretchConfig
       })
       .map((stretchConfig) => {
-        if (stretchConfig.duration || !this._defaultLength) {
-          return stretchConfig
-        }
-
-        return { ...stretchConfig, duration: this._defaultLength }
+        const duration =
+          this._overrideLength || this._defaultLength || stretchConfig.duration
+        return { ...stretchConfig, duration }
       })
       .map((stretchConfig) => {
         return stretchConfig as Stretch
       })
-    return new Routine(stretches)
+    return stretches
   }
 }

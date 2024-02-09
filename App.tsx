@@ -1,26 +1,17 @@
 import { StatusBar } from 'expo-status-bar'
 import RoutineBuilder from './RoutineBuilder'
-import React, { useState } from 'react'
-import Stretch from './Stretch'
-import StretchCard from './StretchCard'
-import {
-  GluestackUIProvider,
-  Box,
-  ScrollView,
-  VStack,
-  Button,
-  ButtonIcon,
-  ButtonText,
-} from '@gluestack-ui/themed'
+import React, { useEffect } from 'react'
+import { GluestackUIProvider, Box, ScrollView } from '@gluestack-ui/themed'
 import { config } from '@gluestack-ui/config'
-import { PauseCircleIcon, PlayCircleIcon } from 'lucide-react-native'
+import Routine from './Routine'
+import { loadSound } from './Audio'
 
 // UI: https://gluestack.io/ui/docs/
 // Icons: https://lucide.dev/icons/
 
 const routine = new RoutineBuilder()
   .withDefaultLength(60)
-  // .withDefaultLength(5)
+  // .withOverridenLength(5)
   .withStretches([
     { eachSide: true, name: 'Hip Flexor Stretch' },
     { name: 'Elephant Walk' },
@@ -37,53 +28,17 @@ const routine = new RoutineBuilder()
   ])
   .build()
 
-routine.start()
-
 export default function App() {
-  const [currentStretch, setCurrentStretch] = useState<Stretch | undefined>(
-    routine.currentStretch()
-  )
-  const [isPaused, setPaused] = useState(true)
+  useEffect(() => {
+    loadSound()
+  }, [])
 
   return (
     <GluestackUIProvider config={config} colorMode="dark">
       <Box bg="$trueGray900" minHeight="100%">
         <ScrollView padding="$2" paddingTop="$12">
           <StatusBar style="auto" />
-          <VStack space="sm">
-            <Box>
-              <Button
-                maxWidth="$24"
-                size="md"
-                variant="outline"
-                action="default"
-                onPress={() => setPaused(!isPaused)}
-              >
-                <ButtonText>{isPaused ? 'Start ' : 'Pause '}</ButtonText>
-                {isPaused ? (
-                  <ButtonIcon size="xl" as={PlayCircleIcon} />
-                ) : (
-                  <ButtonIcon size="xl" as={PauseCircleIcon} />
-                )}
-              </Button>
-            </Box>
-            {currentStretch && (
-              <StretchCard
-                isNextStretch={false}
-                key={currentStretch.name}
-                onDone={() => {
-                  routine.goToNextStretch()
-                  setCurrentStretch(routine.currentStretch())
-                }}
-                paused={isPaused}
-                startTime={Date.now()}
-                stretch={currentStretch}
-              />
-            )}
-            {routine.remainingStretches().map((stretch) => (
-              <StretchCard isNextStretch key={stretch.name} stretch={stretch} />
-            ))}
-          </VStack>
+          <Routine stretches={routine} />
         </ScrollView>
       </Box>
     </GluestackUIProvider>
