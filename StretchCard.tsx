@@ -1,11 +1,12 @@
 import { Box, Text, Heading } from '@gluestack-ui/themed'
-import Stretch from './Stretch'
 import Timer from './Timer'
 import React, { memo } from 'react'
 
 export default memo(function StretchCard(props: {
   isNextStretch: boolean
-  stretch: Stretch
+  name: string
+  description: string
+  duration: number
   millisecondsLeft?: number
 }) {
   return (
@@ -18,15 +19,15 @@ export default memo(function StretchCard(props: {
       borderWidth="$1"
     >
       <Box paddingLeft="$2">
-        <Heading color="$textLight200">{props.stretch.name}</Heading>
-        {props.stretch.description && <Text>{props.stretch.description}</Text>}
+        <Heading color="$textLight200">{props.name}</Heading>
+        {props.description && <Text>{props.description}</Text>}
         <Text marginBottom="$2" opacity="$80">
-          Hold for {props.stretch.duration} seconds.
+          Hold for {props.duration} seconds.
         </Text>
       </Box>
       {props.millisecondsLeft && (
         <Timer
-          duration={props.stretch.duration}
+          duration={props.duration}
           millisecondsLeft={props.millisecondsLeft}
         />
       )}

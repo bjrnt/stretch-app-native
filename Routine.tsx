@@ -21,8 +21,17 @@ export default function Routine(props: { stretches: Stretch[] }) {
   )
   const [currentMsRemaining, setCurrentMsRemaining] = useState<
     number | undefined
-  >(currentStretch!.duration * 1000)
+  >(props.stretches[0].duration * 1000)
   const [lastTickAt, setLastTickAt] = useState(Date.now())
+
+  // Detect changes in routine
+  useEffect(() => {
+    setPaused(true)
+    setCurrentStretch(props.stretches[0])
+    setRemainingStretches(props.stretches.slice(1))
+    setCurrentMsRemaining(props.stretches[0].duration * 1000)
+    setLastTickAt(Date.now())
+  }, [props.stretches])
 
   useEffect(() => {
     const id = requestAnimationFrame(() => {
@@ -34,14 +43,22 @@ export default function Routine(props: { stretches: Stretch[] }) {
       }
 
       if (elapsedMs >= currentMsRemaining) {
+        // Routine done
         if (remainingStretches.length === 0) {
           setCurrentMsRemaining(undefined)
+          setCurrentStretch(undefined)
+          setRemainingStretches([])
+          setPaused(true)
+          return
         }
+
+        // Next stretch
         const nextStretch = remainingStretches[0]
         setCurrentStretch(nextStretch)
         setRemainingStretches(remainingStretches.slice(1))
         setCurrentMsRemaining(nextStretch.duration * 1000)
       } else {
+        // Progress current stretch
         setCurrentMsRemaining(currentMsRemaining - elapsedMs)
 
         if (
@@ -79,12 +96,20 @@ export default function Routine(props: { stretches: Stretch[] }) {
         <StretchCard
           isNextStretch={false}
           key={currentStretch.name}
-          stretch={currentStretch}
+          name={currentStretch.name}
+          description={currentStretch.description ?? ''}
+          duration={currentStretch.duration}
           millisecondsLeft={currentMsRemaining}
         />
       )}
       {remainingStretches.map((stretch) => (
-        <StretchCard isNextStretch key={stretch.name} stretch={stretch} />
+        <StretchCard
+          isNextStretch
+          key={stretch.name}
+          name={stretch.name}
+          description={stretch.description ?? ''}
+          duration={stretch.duration}
+        />
       ))}
     </VStack>
   )
