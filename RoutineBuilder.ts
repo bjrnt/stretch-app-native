@@ -1,3 +1,4 @@
+import IRoutine from './IRoutine'
 import Stretch, { StretchConfig } from './Stretch'
 
 export default class RoutineBuilder {
@@ -5,6 +6,13 @@ export default class RoutineBuilder {
   private _sets: number = 1
   private _defaultLength?: number
   private _overrideLength?: number
+
+  constructor(private readonly _name: string, private _description: string) {}
+
+  public withDescription(description: string): RoutineBuilder {
+    this._description = description
+    return this
+  }
 
   public withStretches(stretches: StretchConfig[]): RoutineBuilder {
     this._stretches = stretches
@@ -26,7 +34,7 @@ export default class RoutineBuilder {
     return this
   }
 
-  public build(): Stretch[] {
+  public build(): IRoutine {
     const stretches = Array.from({ length: this._sets }, (_, i) =>
       this._stretches.map((stretch) => {
         if (this._sets > 1) {
@@ -60,6 +68,10 @@ export default class RoutineBuilder {
       .map((stretchConfig) => {
         return stretchConfig as Stretch
       })
-    return stretches
+    return {
+      name: this._name,
+      description: this._description,
+      tasks: stretches,
+    }
   }
 }

@@ -18,10 +18,12 @@ export default function RoutinePicker<T>({
   selectedValue,
   onValueChange,
   routines,
+  labels,
 }: {
   selectedValue: string
   onValueChange: (value: string) => void
   routines: string[]
+  labels: string[]
 }) {
   return (
     <Box paddingBottom="$2">
@@ -36,10 +38,10 @@ export default function RoutinePicker<T>({
             <SelectDragIndicatorWrapper>
               <SelectDragIndicator />
             </SelectDragIndicatorWrapper>
-            {routines.map((routineName) => (
+            {routines.map((routineName, idx) => (
               <SelectItem
                 key={routineName}
-                label={routineName}
+                label={labels[idx]}
                 value={routineName}
               />
             ))}

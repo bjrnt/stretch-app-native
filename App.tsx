@@ -11,7 +11,7 @@ import RoutinePicker from './RoutinePicker'
 // Icons: https://lucide.dev/icons/
 
 const routines = {
-  General: new RoutineBuilder()
+  General: new RoutineBuilder('General', '')
     .withDefaultLength(60)
     .withStretches([
       { eachSide: true, name: 'Hip Flexor Stretch' },
@@ -28,15 +28,15 @@ const routines = {
       { eachSide: true, name: 'Calf Stretch' },
     ])
     .build(),
-  Physio: new RoutineBuilder()
+  Physio: new RoutineBuilder('Physio', '')
     .withDefaultLength(120)
     .withStretches([{ name: "Child's Pose" }, { name: 'Happy Baby' }])
     .build(),
-  Wrists: new RoutineBuilder()
+  Wrists: new RoutineBuilder('Wrist Stretches', '')
     .withDefaultLength(120)
     .withStretches([{ name: 'Flexors' }, { name: 'Extensors' }])
     .build(),
-  Test: new RoutineBuilder()
+  Test: new RoutineBuilder('Test', '')
     .withDefaultLength(5)
     .withStretches([{ name: 'Test1' }, { name: 'Test2' }])
     .build(),
@@ -57,12 +57,13 @@ export default function App() {
           <StatusBar style="auto" />
           <RoutinePicker
             routines={Object.keys(routines)}
+            labels={Object.values(routines).map((r) => r.name)}
             selectedValue={selectedRoutine}
             onValueChange={(value) => {
               setSelectedRoutine(value as any)
             }}
           />
-          <Routine stretches={routines[selectedRoutine]} />
+          <Routine stretches={routines[selectedRoutine].tasks} />
         </ScrollView>
       </Box>
     </GluestackUIProvider>
