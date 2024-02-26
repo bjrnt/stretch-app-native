@@ -37,8 +37,21 @@ const routines = {
     .withStretches([{ name: 'Flexors' }, { name: 'Extensors' }])
     .build(),
   Test: new RoutineBuilder('Test', '')
+    .withDescription(
+      `This is a test routine, for my own testing.
+  
+  - Test 1
+  - Test 2
+  - Test 3`
+    )
     .withDefaultLength(5)
-    .withStretches([{ name: 'Test1' }, { name: 'Test2' }])
+    .withStretches([
+      {
+        name: 'Test1',
+        description: 'Hello!\nWhat is up?\n- [Lol](http://google.com)\n',
+      },
+      { name: 'Test2' },
+    ])
     .build(),
 }
 
@@ -63,7 +76,11 @@ export default function App() {
               setSelectedRoutine(value as any)
             }}
           />
-          <Routine stretches={routines[selectedRoutine].tasks} />
+          <Routine
+            stretches={routines[selectedRoutine].tasks}
+            name={routines[selectedRoutine].name}
+            description={routines[selectedRoutine].description}
+          />
         </ScrollView>
       </Box>
     </GluestackUIProvider>

@@ -10,8 +10,13 @@ import Stretch from './Stretch'
 import React, { useState, useEffect } from 'react'
 import StretchCard from './StretchCard'
 import { playDing } from './Audio'
+import RoutineCard from './RoutineCard'
 
-export default function Routine(props: { stretches: Stretch[] }) {
+export default function Routine(props: {
+  stretches: Stretch[]
+  name: string
+  description: string
+}) {
   const [isPaused, setPaused] = useState(true)
   const [currentStretch, setCurrentStretch] = useState<Stretch | undefined>(
     props.stretches[0]
@@ -76,6 +81,11 @@ export default function Routine(props: { stretches: Stretch[] }) {
 
   return (
     <VStack space="sm">
+      {isPaused && props.description.length > 0 && (
+        <Box>
+          <RoutineCard name={props.name} description={props.description} />
+        </Box>
+      )}
       <Box>
         <Button
           maxWidth="$24"
