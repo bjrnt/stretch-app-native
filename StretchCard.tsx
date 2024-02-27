@@ -1,9 +1,9 @@
 import { Box, Text, Heading } from '@gluestack-ui/themed'
 import Timer from './Timer'
-import React from 'react'
+import React, { memo } from 'react'
 import MarkdownWrapper from './MarkdownWrapper'
 
-export default function StretchCard(props: {
+export default memo(function StretchCard(props: {
   isNext: boolean
   name: string
   description: string
@@ -37,4 +37,4 @@ export default function StretchCard(props: {
       )}
     </Box>
   )
-}
+})

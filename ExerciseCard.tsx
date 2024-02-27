@@ -1,8 +1,8 @@
 import { Box, Text, Heading } from '@gluestack-ui/themed'
-import React from 'react'
+import React, { memo } from 'react'
 import MarkdownWrapper from './MarkdownWrapper'
 
-export default function ExerciseCard(props: {
+export default memo(function ExerciseCard(props: {
   isNext: boolean
   name: string
   description: string
@@ -29,4 +29,4 @@ export default function ExerciseCard(props: {
       )}
     </Box>
   )
-}
+})

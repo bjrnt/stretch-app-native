@@ -1,6 +1,7 @@
 import { Box, Text } from '@gluestack-ui/themed'
+import { memo } from 'react'
 
-export default function Timer(props: {
+export default memo(function Timer(props: {
   duration: number
   millisecondsLeft: number
 }) {
@@ -27,4 +28,4 @@ export default function Timer(props: {
       </Box>
     </Box>
   )
-}
+})

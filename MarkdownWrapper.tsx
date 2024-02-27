@@ -1,6 +1,5 @@
-import { Icon, Link, LinkText, Text } from '@gluestack-ui/themed'
-import { DotIcon } from 'lucide-react-native'
-import { ReactNode } from 'react'
+import { Box, Link, LinkText, Text } from '@gluestack-ui/themed'
+import { ReactNode, memo } from 'react'
 import Markdown, { RenderRules } from 'react-native-markdown-display'
 
 const renderRules: RenderRules = {
@@ -8,9 +7,7 @@ const renderRules: RenderRules = {
     <Text key={node.key}>{node.content}</Text>
   ),
   list_item: (node, children, parent, styles) => (
-    <Text key={node.key}>
-      <Icon as={DotIcon} /> {children}
-    </Text>
+    <Text key={node.key}>- {children}</Text>
   ),
   link: (node, children, parent, styles) => (
     <Link key={node.key} href={node.attributes.href}>
@@ -21,12 +18,16 @@ const renderRules: RenderRules = {
 
 const isDebugMode = false
 
-const MarkdownWrapper: React.FC<{ children: ReactNode }> = ({ children }) => {
+export default memo(function MarkdownWrapper({
+  children,
+}: {
+  children: ReactNode
+}) {
   return (
-    <Markdown debugPrintTree={isDebugMode} rules={renderRules}>
-      {children}
-    </Markdown>
+    <Box marginTop="$1">
+      <Markdown debugPrintTree={isDebugMode} rules={renderRules}>
+        {children}
+      </Markdown>
+    </Box>
   )
-}
-
-export default MarkdownWrapper
+})

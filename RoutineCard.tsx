@@ -1,7 +1,8 @@
 import { Box, Heading } from '@gluestack-ui/themed'
 import MarkdownWrapper from './MarkdownWrapper'
+import { memo } from 'react'
 
-export default function RoutineCard({
+export default memo(function RoutineCard({
   name,
   description,
 }: {
@@ -31,4 +32,4 @@ export default function RoutineCard({
       </Box>
     </Box>
   )
-}
+})
