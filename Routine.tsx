@@ -76,12 +76,14 @@ export default function Routine(props: {
 
   useEffect(() => {
     const id = requestAnimationFrame(() => {
-      const elapsedMs = Date.now() - lastTickAt
-      setLastTickAt(Date.now())
+      const now = Date.now()
+      setLastTickAt(now)
 
       if (isPaused || currentMsRemaining == null || currentMsRemaining === 0) {
         return
       }
+
+      const elapsedMs = now - lastTickAt
 
       if (elapsedMs >= currentMsRemaining) {
         goToNext()

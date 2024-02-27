@@ -45,15 +45,15 @@ const routines = {
       {
         name: 'Banded Protraction',
         description: `- Round upper spine at end of rep
-        - Extend arms all the way back
-        - Hands face roof at the start of the rep`,
+- Extend arms all the way back
+- Hands face roof at the start of the rep`,
         repetitions: 10,
       },
       {
         name: 'Band Pull-Apart',
         description: `- "Break the bar apart"
-        - Pull until it hits your chest
-        - Crank out more external rotation at the end`,
+- Pull until it hits your chest
+- Crank out more external rotation at the end`,
         repetitions: 10,
       },
       {
@@ -72,9 +72,9 @@ const routines = {
     .withDescription(
       `This is a test routine, for my own testing.
   
-  - Test 1
-  - Test 2
-  - Test 3`
+- Test 1
+- Test 2
+- Test 3`
     )
     .withDefaultLength(5)
     .withSets(10)
