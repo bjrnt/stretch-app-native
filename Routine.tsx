@@ -5,38 +5,74 @@ import {
   ButtonIcon,
   ButtonText,
 } from '@gluestack-ui/themed'
-import { PauseCircleIcon, PlayCircleIcon } from 'lucide-react-native'
-import Stretch from './Stretch'
+import {
+  PauseCircleIcon,
+  PlayCircleIcon,
+  CheckCircle2Icon,
+} from 'lucide-react-native'
 import React, { useState, useEffect } from 'react'
-import StretchCard from './StretchCard'
 import { playDing } from './Audio'
 import RoutineCard from './RoutineCard'
+import { Exercise, Stretch } from './Data'
+import TaskCard from './TaskCard'
 
 export default function Routine(props: {
-  stretches: Stretch[]
+  tasks: (Stretch | Exercise)[]
   name: string
   description: string
 }) {
   const [isPaused, setPaused] = useState(true)
-  const [currentStretch, setCurrentStretch] = useState<Stretch | undefined>(
-    props.stretches[0]
-  )
-  const [remainingStretches, setRemainingStretches] = useState<Stretch[]>(
-    props.stretches.slice(1)
+  const [currentTask, setCurrentTask] = useState<
+    Stretch | Exercise | undefined
+  >(props.tasks[0])
+  const [remainingTasks, setRemainingTasks] = useState<(Stretch | Exercise)[]>(
+    props.tasks.slice(1)
   )
   const [currentMsRemaining, setCurrentMsRemaining] = useState<
     number | undefined
-  >(props.stretches[0].duration * 1000)
+  >(
+    (props.tasks[0].type === 'Stretch' && props.tasks[0].duration * 1000) ||
+      undefined
+  )
   const [lastTickAt, setLastTickAt] = useState(Date.now())
+
+  function goToNext() {
+    // Done
+    if (remainingTasks.length === 0) {
+      setCurrentMsRemaining(undefined)
+      setCurrentTask(undefined)
+      setRemainingTasks([])
+      setPaused(true)
+      return
+    }
+
+    // Next
+    const nextTask = remainingTasks[0]
+    setCurrentTask(nextTask)
+    setRemainingTasks(remainingTasks.slice(1))
+
+    if (nextTask.type === 'Stretch') {
+      setCurrentMsRemaining(nextTask.duration * 1000)
+
+      if (currentTask?.type === 'Exercise') {
+        setPaused(true)
+      }
+    } else if (nextTask.type === 'Exercise') {
+      setCurrentMsRemaining(undefined)
+    }
+  }
 
   // Detect changes in routine
   useEffect(() => {
     setPaused(true)
-    setCurrentStretch(props.stretches[0])
-    setRemainingStretches(props.stretches.slice(1))
-    setCurrentMsRemaining(props.stretches[0].duration * 1000)
+    setCurrentTask(props.tasks[0])
+    setRemainingTasks(props.tasks.slice(1))
+    setCurrentMsRemaining(
+      (props.tasks[0].type === 'Stretch' && props.tasks[0].duration * 1000) ||
+        undefined
+    )
     setLastTickAt(Date.now())
-  }, [props.stretches])
+  }, [props.tasks])
 
   useEffect(() => {
     const id = requestAnimationFrame(() => {
@@ -48,20 +84,7 @@ export default function Routine(props: {
       }
 
       if (elapsedMs >= currentMsRemaining) {
-        // Routine done
-        if (remainingStretches.length === 0) {
-          setCurrentMsRemaining(undefined)
-          setCurrentStretch(undefined)
-          setRemainingStretches([])
-          setPaused(true)
-          return
-        }
-
-        // Next stretch
-        const nextStretch = remainingStretches[0]
-        setCurrentStretch(nextStretch)
-        setRemainingStretches(remainingStretches.slice(1))
-        setCurrentMsRemaining(nextStretch.duration * 1000)
+        goToNext()
       } else {
         // Progress current stretch
         setCurrentMsRemaining(currentMsRemaining - elapsedMs)
@@ -80,46 +103,44 @@ export default function Routine(props: {
   })
 
   return (
-    <VStack space="sm">
-      {isPaused && props.description.length > 0 && (
-        <Box>
-          <RoutineCard name={props.name} description={props.description} />
-        </Box>
+    <VStack space="sm" paddingBottom="$24">
+      {props.description.length > 0 && (
+        <RoutineCard name={props.name} description={props.description} />
       )}
       <Box>
-        <Button
-          maxWidth="$24"
-          size="md"
-          variant="outline"
-          action="default"
-          onPress={() => setPaused(!isPaused)}
-        >
-          <ButtonText>{isPaused ? 'Start ' : 'Pause '}</ButtonText>
-          {isPaused ? (
-            <ButtonIcon size="xl" as={PlayCircleIcon} />
-          ) : (
-            <ButtonIcon size="xl" as={PauseCircleIcon} />
-          )}
-        </Button>
+        {currentTask?.type == 'Stretch' && (
+          <Button
+            action="secondary"
+            variant={isPaused ? 'solid' : 'outline'}
+            onPress={() => setPaused(!isPaused)}
+          >
+            <ButtonText marginRight="$1">
+              {isPaused ? 'Start ' : 'Pause '}
+            </ButtonText>
+            {isPaused ? (
+              <ButtonIcon size="xl" as={PlayCircleIcon} />
+            ) : (
+              <ButtonIcon size="xl" as={PauseCircleIcon} />
+            )}
+          </Button>
+        )}
+        {currentTask?.type == 'Exercise' && (
+          <Button variant="solid" action="secondary" onPress={goToNext}>
+            <ButtonText marginRight="$1">Complete</ButtonText>
+            <ButtonIcon size="xl" as={CheckCircle2Icon} />
+          </Button>
+        )}
       </Box>
-      {currentStretch && (
-        <StretchCard
-          isNextStretch={false}
-          key={currentStretch.name}
-          name={currentStretch.name}
-          description={currentStretch.description ?? ''}
-          duration={currentStretch.duration}
+      {currentTask && (
+        <TaskCard
+          isNext={false}
+          key={currentTask.name + currentTask.set ?? ''}
+          task={currentTask}
           millisecondsLeft={currentMsRemaining}
         />
       )}
-      {remainingStretches.map((stretch) => (
-        <StretchCard
-          isNextStretch
-          key={stretch.name}
-          name={stretch.name}
-          description={stretch.description ?? ''}
-          duration={stretch.duration}
-        />
+      {remainingTasks.map((task) => (
+        <TaskCard isNext key={task.name + task.set ?? ''} task={task} />
       ))}
     </VStack>
   )

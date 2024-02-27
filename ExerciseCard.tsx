@@ -1,21 +1,19 @@
 import { Box, Text, Heading } from '@gluestack-ui/themed'
-import Timer from './Timer'
 import React from 'react'
 import MarkdownWrapper from './MarkdownWrapper'
 
-export default function StretchCard(props: {
+export default function ExerciseCard(props: {
   isNext: boolean
   name: string
   description: string
-  duration: number
-  millisecondsLeft?: number
+  repetitions: number
 }) {
   return (
     <Box>
       <Box paddingLeft="$2" paddingRight="$2">
         <Heading color="$textLight200">{props.name}</Heading>
         <Text marginBottom="$2" opacity="$80">
-          Hold for {props.duration} seconds.
+          Complete {props.repetitions} repetitions.
         </Text>
       </Box>
       {props.description && (
@@ -28,12 +26,6 @@ export default function StretchCard(props: {
         >
           <MarkdownWrapper>{props.description}</MarkdownWrapper>
         </Box>
-      )}
-      {props.millisecondsLeft && (
-        <Timer
-          duration={props.duration}
-          millisecondsLeft={props.millisecondsLeft}
-        />
       )}
     </Box>
   )

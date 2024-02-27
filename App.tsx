@@ -13,7 +13,7 @@ import RoutinePicker from './RoutinePicker'
 const routines = {
   General: new RoutineBuilder('General', '')
     .withDefaultLength(60)
-    .withStretches([
+    .withStretches(
       { eachSide: true, name: 'Hip Flexor Stretch' },
       { name: 'Elephant Walk' },
       { name: 'Hamstring Stretch', duration: 30 },
@@ -25,16 +25,48 @@ const routines = {
       { eachSide: true, name: 'Seated Twist Stretch' },
       { eachSide: true, name: 'Pigeon Pose' },
       { eachSide: true, name: 'Goal Post Arms' },
-      { eachSide: true, name: 'Calf Stretch' },
-    ])
+      { eachSide: true, name: 'Calf Stretch' }
+    )
     .build(),
   Physio: new RoutineBuilder('Physio', '')
     .withDefaultLength(120)
-    .withStretches([{ name: "Child's Pose" }, { name: 'Happy Baby' }])
+    .withStretches({ name: "Child's Pose" }, { name: 'Happy Baby' })
     .build(),
   Wrists: new RoutineBuilder('Wrist Stretches', '')
     .withDefaultLength(120)
-    .withStretches([{ name: 'Flexors' }, { name: 'Extensors' }])
+    .withStretches({ name: 'Flexors' }, { name: 'Extensors' })
+    .build(),
+  Shoulders: new RoutineBuilder('Shoulder Health', '')
+    .withDescription(
+      `- Based on [How I fixed Shoulder Pain & Imbalances](https://www.youtube.com/watch?v=i4ve0nuXz0M)`
+    )
+    .withSets(3)
+    .withExercises(
+      {
+        name: 'Banded Protraction',
+        description: `- Round upper spine at end of rep
+        - Extend arms all the way back
+        - Hands face roof at the start of the rep`,
+        repetitions: 10,
+      },
+      {
+        name: 'Band Pull-Apart',
+        description: `- "Break the bar apart"
+        - Pull until it hits your chest
+        - Crank out more external rotation at the end`,
+        repetitions: 10,
+      },
+      {
+        name: 'Banded External Rotation',
+        description: `- Pull shoulder-blade down and back`,
+        eachSide: true,
+        repetitions: 10,
+      }
+    )
+    .withStretches({
+      name: 'Dead Hang',
+      duration: 20,
+    })
     .build(),
   Test: new RoutineBuilder('Test', '')
     .withDescription(
@@ -45,13 +77,15 @@ const routines = {
   - Test 3`
     )
     .withDefaultLength(5)
-    .withStretches([
+    .withSets(10)
+    .withStretches(
       {
         name: 'Test1',
         description: 'Hello!\nWhat is up?\n- [Lol](http://google.com)\n',
       },
-      { name: 'Test2' },
-    ])
+      { name: 'Test2' }
+    )
+    .withExercises({ name: 'Hello', repetitions: 3 })
     .build(),
 }
 
@@ -63,6 +97,7 @@ export default function App() {
   const [selectedRoutine, setSelectedRoutine] =
     useState<keyof typeof routines>('General')
 
+  const routine = routines[selectedRoutine]
   return (
     <GluestackUIProvider config={config} colorMode="dark">
       <Box bg="$trueGray900" minHeight="100%">
@@ -77,9 +112,9 @@ export default function App() {
             }}
           />
           <Routine
-            stretches={routines[selectedRoutine].tasks}
-            name={routines[selectedRoutine].name}
-            description={routines[selectedRoutine].description}
+            tasks={routine.tasks}
+            name={routine.name}
+            description={routine.description}
           />
         </ScrollView>
       </Box>

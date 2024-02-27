@@ -10,14 +10,25 @@ export default function RoutineCard({
 }) {
   return (
     <Box
-      padding="$2"
+      paddingTop="$2"
+      paddingBottom="$2"
       bg="$backgroundDark900"
       borderRadius="$lg"
       borderColor="$borderDark800"
       borderWidth="$1"
     >
-      <Heading>{name}</Heading>
-      <MarkdownWrapper>{description}</MarkdownWrapper>
+      <Heading paddingLeft="$2" paddingBottom="$2">
+        {name}
+      </Heading>
+      <Box
+        bg="$backgroundDark950"
+        padding="$2"
+        paddingTop="$0"
+        paddingBottom="$2"
+        marginBottom="$2"
+      >
+        <MarkdownWrapper>{description}</MarkdownWrapper>
+      </Box>
     </Box>
   )
 }

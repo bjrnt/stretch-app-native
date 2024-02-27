@@ -1,11 +1,10 @@
 import IRoutine from './IRoutine'
-import Stretch, { StretchConfig } from './Stretch'
+import { Exercise, ExerciseConfig, Stretch, StretchConfig } from './Data'
 
 export default class RoutineBuilder {
-  private _stretches: StretchConfig[] = []
+  private _tasks: (StretchConfig | ExerciseConfig)[] = []
   private _sets: number = 1
   private _defaultLength?: number
-  private _overrideLength?: number
 
   constructor(private readonly _name: string, private _description: string) {}
 
@@ -14,8 +13,21 @@ export default class RoutineBuilder {
     return this
   }
 
-  public withStretches(stretches: StretchConfig[]): RoutineBuilder {
-    this._stretches = stretches
+  public withStretches(
+    ...stretches: Omit<StretchConfig, 'type'>[]
+  ): RoutineBuilder {
+    for (const stretch of stretches) {
+      this._tasks.push({ ...stretch, type: 'Stretch' })
+    }
+    return this
+  }
+
+  public withExercises(
+    ...exercises: Omit<ExerciseConfig, 'type'>[]
+  ): RoutineBuilder {
+    for (const exercise of exercises) {
+      this._tasks.push({ ...exercise, type: 'Exercise' })
+    }
     return this
   }
 
@@ -29,49 +41,57 @@ export default class RoutineBuilder {
     return this
   }
 
-  public withOverridenLength(length: number): RoutineBuilder {
-    this._overrideLength = length
-    return this
-  }
-
   public build(): IRoutine {
-    const stretches = Array.from({ length: this._sets }, (_, i) =>
-      this._stretches.map((stretch) => {
-        if (this._sets > 1) {
-          return { ...stretch, set: i + 1 }
-        }
-        return stretch
-      })
+    const tasks: (Stretch | Exercise)[] = Array.from(
+      { length: this._sets },
+      (_, i) =>
+        this._tasks.map((stretch) => {
+          if (this._sets > 1) {
+            return { ...stretch, set: i + 1 }
+          }
+          return stretch
+        })
     )
       .flat()
-      .flatMap((stretchConfig) => {
-        if (stretchConfig.eachSide) {
+      .flatMap((config) => {
+        if (config.eachSide) {
           const left = {
-            ...stretchConfig,
-            name: stretchConfig.name + ' (Left Side)',
+            ...config,
+            name: config.name + ' (Left Side)',
           }
           const right = {
-            ...stretchConfig,
-            name: stretchConfig.name + ' (Right Side)',
+            ...config,
+            name: config.name + ' (Right Side)',
           }
           delete left.eachSide
           delete right.eachSide
           return [left, right]
         }
-        return stretchConfig
+        return config
       })
-      .map((stretchConfig) => {
+      .map((config) => {
+        if (config.type !== 'Stretch') {
+          return config
+        }
         const duration =
-          this._overrideLength || this._defaultLength || stretchConfig.duration
-        return { ...stretchConfig, duration }
+          (config as StretchConfig).duration ?? this._defaultLength!
+        return { ...config, duration }
       })
-      .map((stretchConfig) => {
-        return stretchConfig as Stretch
+      .map((config) => {
+        if (config.type === 'Stretch') {
+          return config as Stretch
+        } else if (config.type === 'Exercise') {
+          return config as Exercise
+        } else {
+          throw new Error(
+            `unknown task type ${config.type}: ${JSON.stringify(config)}`
+          )
+        }
       })
     return {
       name: this._name,
       description: this._description,
-      tasks: stretches,
+      tasks,
     }
   }
 }
