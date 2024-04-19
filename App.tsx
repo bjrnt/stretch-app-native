@@ -17,7 +17,6 @@ const routines = {
       { eachSide: true, name: 'Hip Flexor Stretch' },
       { name: 'Elephant Walk' },
       { name: 'Hamstring Stretch', duration: 30 },
-      { name: 'Neck Stretch', eachSide: true },
       { name: 'Pancake Stretch' },
       { eachSide: true, name: 'Figure Four Stretch' },
       { name: 'Lat Stretch' },
@@ -25,6 +24,7 @@ const routines = {
       { eachSide: true, name: 'Seated Twist Stretch' },
       { eachSide: true, name: 'Pigeon Pose' },
       { eachSide: true, name: 'Goal Post Arms' },
+      { name: 'Neck Stretch', eachSide: true },
       { eachSide: true, name: 'Calf Stretch' }
     )
     .build(),
