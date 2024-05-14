@@ -13,6 +13,7 @@
     "@gluestack-style/react": "^1.0.48",
     "@gluestack-ui/config": "^1.1.8",
     "@gluestack-ui/themed": "^1.1.8",
+    "@nkzw/eslint-config": "^1.14.0",
     "expo": "~49.0.23",
     "expo-av": "^13.10.5",
     "expo-splash-screen": "~0.20.5",
