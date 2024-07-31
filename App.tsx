@@ -28,6 +28,31 @@ const routines = {
       { eachSide: true, name: 'Calf Stretch' }
     )
     .build(),
+  Morning: new RoutineBuilder('Morning', '')
+    .withDefaultLength(60)
+    .withStretches(
+      { eachSide: true, name: 'Single-legged Hip Rotations' },
+      {
+        description: 'With both knees touching the floor',
+        name: 'Hip Rotations',
+      },
+      { name: 'Standing Downward Dog' },
+      {
+        description: 'Hollow body, squeeze glute',
+        eachSide: true,
+        name: 'Free-standing Hip Flexor Stretch',
+      },
+      { name: 'Lounge Chair/Reverse Plank' },
+      { name: 'Straight-legged Good Mornings' },
+      { name: 'Deep Squat Sit' },
+      {
+        description:
+          'Bent knees for 5, then straighter legs. Tap knees on floor for reps.',
+        name: 'Downward Dog Press with Bent Knees',
+      },
+      { name: 'Bear Crawl' }
+    )
+    .build(),
   Physio: new RoutineBuilder('Physio', '')
     .withDefaultLength(120)
     .withStretches({ name: "Child's Pose" }, { name: 'Happy Baby' })
