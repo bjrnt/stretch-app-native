@@ -115,10 +115,6 @@ const routines = {
 }
 
 export default function App() {
-  useEffect(() => {
-    loadSound()
-  }, [])
-
   const [selectedRoutine, setSelectedRoutine] =
     useState<keyof typeof routines>('General')
 

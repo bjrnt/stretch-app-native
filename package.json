@@ -12,27 +12,27 @@
   "dependencies": {
     "@gluestack-style/react": "^1.0.57",
     "@gluestack-ui/config": "^1.1.20",
-    "@gluestack-ui/themed": "^1.1.61",
-    "@nkzw/eslint-config": "^1.18.1",
-    "expo": "~52.0.9",
-    "expo-av": "^15.0.1",
-    "expo-splash-screen": "~0.29.12",
-    "expo-status-bar": "~2.0.0",
-    "expo-updates": "~0.26.8",
-    "lucide-react-native": "^0.311.0",
+    "@gluestack-ui/themed": "^1.1.73",
+    "@nkzw/eslint-config": "^1.19.0",
+    "expo": "~53.0.7",
+    "expo-audio": "~0.4.4",
+    "expo-splash-screen": "~0.30.8",
+    "expo-status-bar": "~2.2.3",
+    "expo-updates": "~0.28.12",
+    "lucide-react-native": "^0.507.0",
     "punycode": "^2.3.1",
-    "react": "18.3.1",
-    "react-native": "0.76.2",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-native": "0.79.2",
     "react-native-markdown-display": "^7.0.2",
-    "react-native-svg": "^15.8.0"
+    "react-native-svg": "^15.11.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
+    "@babel/core": "^7.27.1",
     "@tsconfig/react-native": "^3.0.5",
     "@types/jest": "^29.5.14",
-    "@types/react": "^18.3.12",
-    "@types/react-test-renderer": "^18.3.0",
-    "typescript": "^5.6.3"
+    "@types/react-test-renderer": "^19.0.0",
+    "typescript": "^5.8.3"
   },
   "private": true
 }

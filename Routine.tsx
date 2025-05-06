@@ -11,16 +11,19 @@ import {
   CheckCircle2Icon,
 } from 'lucide-react-native'
 import React, { useState, useEffect } from 'react'
-import { playDing } from './Audio'
 import RoutineCard from './RoutineCard'
 import { Exercise, Stretch } from './Data'
 import TaskCard from './TaskCard'
+import { useAudioPlayer } from 'expo-audio'
+
+const dingSound = require('./assets/ding.m4a')
 
 export default function Routine(props: {
-  tasks: (Stretch | Exercise)[]
-  name: string
   description: string
+  name: string
+  tasks: (Stretch | Exercise)[]
 }) {
+  const player = useAudioPlayer(dingSound)
   const [isPaused, setPaused] = useState(true)
   const [currentTask, setCurrentTask] = useState<
     Stretch | Exercise | undefined
@@ -95,7 +98,8 @@ export default function Routine(props: {
           currentMsRemaining > 3000 &&
           currentMsRemaining - elapsedMs <= 3000
         ) {
-          playDing()
+          player.seekTo(0)
+          player.play()
         }
       }
     })
@@ -105,31 +109,31 @@ export default function Routine(props: {
   })
 
   return (
-    <VStack space="sm" paddingBottom="$24">
+    <VStack paddingBottom="$24" space="sm">
       {props.description.length > 0 && (
-        <RoutineCard name={props.name} description={props.description} />
+        <RoutineCard description={props.description} name={props.name} />
       )}
       <Box>
         {currentTask?.type == 'Stretch' && (
           <Button
             action="secondary"
-            variant={isPaused ? 'solid' : 'outline'}
             onPress={() => setPaused(!isPaused)}
+            variant={isPaused ? 'solid' : 'outline'}
           >
             <ButtonText marginRight="$1">
               {isPaused ? 'Start ' : 'Pause '}
             </ButtonText>
             {isPaused ? (
-              <ButtonIcon size="xl" as={PlayCircleIcon} />
+              <ButtonIcon as={PlayCircleIcon} size="xl" />
             ) : (
-              <ButtonIcon size="xl" as={PauseCircleIcon} />
+              <ButtonIcon as={PauseCircleIcon} size="xl" />
             )}
           </Button>
         )}
         {currentTask?.type == 'Exercise' && (
-          <Button variant="solid" action="secondary" onPress={goToNext}>
+          <Button action="secondary" onPress={goToNext} variant="solid">
             <ButtonText marginRight="$1">Complete</ButtonText>
-            <ButtonIcon size="xl" as={CheckCircle2Icon} />
+            <ButtonIcon as={CheckCircle2Icon} size="xl" />
           </Button>
         )}
       </Box>
@@ -137,8 +141,8 @@ export default function Routine(props: {
         <TaskCard
           isNext={false}
           key={currentTask.name + currentTask.set ?? ''}
-          task={currentTask}
           millisecondsLeft={currentMsRemaining}
+          task={currentTask}
         />
       )}
       {remainingTasks.map((task) => (
