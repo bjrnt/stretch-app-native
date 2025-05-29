@@ -1,10 +1,9 @@
 import { StatusBar } from 'expo-status-bar'
 import RoutineBuilder from './RoutineBuilder'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { GluestackUIProvider, Box, ScrollView } from '@gluestack-ui/themed'
 import { config } from '@gluestack-ui/config'
 import Routine from './Routine'
-import { loadSound } from './Audio'
 import RoutinePicker from './RoutinePicker'
 
 // UI: https://gluestack.io/ui/docs/
@@ -26,6 +25,28 @@ const routines = {
       { eachSide: true, name: 'Goal Post Arms' },
       { eachSide: true, name: 'Neck Stretch' },
       { eachSide: true, name: 'Calf Stretch' }
+    )
+    .build(),
+  HipFlexors: new RoutineBuilder(
+    'Hip Flexors',
+    'https://www.youtube.com/shorts/q_3OLvzkBZg'
+  )
+    .withDefaultLength(30)
+    .withStretches(
+      {
+        description: 'Sit on heels, thrust up',
+        duration: 90,
+        name: 'Hip Flexor Thrusts',
+      },
+      {
+        description: 'With knees and quads not touching floor',
+        name: 'Cobra stretch',
+      },
+      {
+        description: 'Hand on same side as raised foot',
+        eachSide: true,
+        name: 'Hip Flexor Stretch (Scorpion)',
+      }
     )
     .build(),
   Morning: new RoutineBuilder('Morning', '')
