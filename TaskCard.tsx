@@ -7,28 +7,28 @@ import ExerciseCard from './ExerciseCard'
 export default memo(
   function TaskCard(props: {
     isNext: boolean
-    task: Stretch | Exercise
     millisecondsLeft?: number
+    task: Stretch | Exercise
   }) {
     let content = null
     if (props.task.type === 'Stretch') {
       const stretch = props.task as Stretch
       content = (
         <StretchCard
-          isNext={props.isNext}
-          name={stretch.name}
           description={stretch.description ?? ''}
           duration={stretch.duration}
+          isNext={props.isNext}
           millisecondsLeft={props.millisecondsLeft}
+          name={stretch.name}
         />
       )
     } else if (props.task.type === 'Exercise') {
       const exercise = props.task as Exercise
       content = (
         <ExerciseCard
+          description={exercise.description ?? ''}
           isNext={props.isNext}
           name={exercise.name}
-          description={exercise.description ?? ''}
           repetitions={exercise.repetitions}
         />
       )
@@ -38,12 +38,12 @@ export default memo(
 
     return (
       <Box
-        paddingTop="$2"
-        paddingBottom="$2"
         bg="$backgroundDark900"
-        borderRadius="$lg"
         borderColor="$borderDark800"
+        borderRadius="$lg"
         borderWidth="$1"
+        paddingBottom="$2"
+        paddingTop="$2"
       >
         {content}
       </Box>

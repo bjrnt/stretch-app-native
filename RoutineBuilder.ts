@@ -89,8 +89,8 @@ export default class RoutineBuilder {
         }
       })
     return {
-      name: this._name,
       description: this._description,
+      name: this._name,
       tasks,
     }
   }

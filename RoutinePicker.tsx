@@ -15,22 +15,22 @@ import {
 import { ChevronDownIcon } from 'lucide-react-native'
 
 export default function RoutinePicker<T>({
-  selectedValue,
+  labels,
   onValueChange,
   routines,
-  labels,
+  selectedValue,
 }: {
-  selectedValue: string
+  labels: string[]
   onValueChange: (value: string) => void
   routines: string[]
-  labels: string[]
+  selectedValue: string
 }) {
   return (
     <Box paddingBottom="$2">
-      <Select selectedValue={selectedValue} onValueChange={onValueChange}>
-        <SelectTrigger variant="rounded" size="md">
+      <Select onValueChange={onValueChange} selectedValue={selectedValue}>
+        <SelectTrigger size="md" variant="rounded">
           <SelectInput placeholder="Select routine" />
-          <SelectIcon mr="$3" as={ChevronDownIcon} />
+          <SelectIcon as={ChevronDownIcon} mr="$3" />
         </SelectTrigger>
         <SelectPortal>
           <SelectBackdrop />

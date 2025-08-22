@@ -1,7 +1,7 @@
 import { Stretch, Exercise } from './Data'
 
 export default interface IRoutine {
-  name: string
   description: string
+  name: string
   tasks: (Stretch | Exercise)[]
 }

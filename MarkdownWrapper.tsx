@@ -3,16 +3,16 @@ import { ReactNode, memo } from 'react'
 import Markdown, { RenderRules } from 'react-native-markdown-display'
 
 const renderRules: RenderRules = {
-  text: (node, children, parent, styles) => (
-    <Text key={node.key}>{node.content}</Text>
+  link: (node, children, parent, styles) => (
+    <Link href={node.attributes.href} key={node.key}>
+      <LinkText>{children}</LinkText>
+    </Link>
   ),
   list_item: (node, children, parent, styles) => (
     <Text key={node.key}>- {children}</Text>
   ),
-  link: (node, children, parent, styles) => (
-    <Link key={node.key} href={node.attributes.href}>
-      <LinkText>{children}</LinkText>
-    </Link>
+  text: (node, children, parent, styles) => (
+    <Text key={node.key}>{node.content}</Text>
   ),
 }
 

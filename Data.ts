@@ -20,6 +20,6 @@ interface CommonConfig {
   eachSide?: boolean
 }
 
-export interface StretchConfig extends Partial<Stretch>, CommonConfig {}
+export interface StretchConfig extends CommonConfig, Partial<Stretch> {}
 
-export interface ExerciseConfig extends Partial<Exercise>, CommonConfig {}
+export interface ExerciseConfig extends CommonConfig, Partial<Exercise> {}

@@ -1,16 +1,19 @@
 import { AudioPlayer, useAudioPlayer } from 'expo-audio'
 
-var sound: any | undefined = undefined
-var player: AudioPlayer | undefined = undefined
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let sound: any | undefined = undefined
+let player: AudioPlayer | undefined = undefined
 
 export async function loadSound() {
-  // sound = new Audio.Sound()
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   sound = require('./assets/ding.m4a')
+  // eslint-disable-next-line
   player = useAudioPlayer(sound)
 }
 
 export async function playDing() {
   if (player == undefined) {
+    // eslint-disable-next-line no-console
     console.error('Audio player not loaded')
     return
   }
@@ -18,6 +21,7 @@ export async function playDing() {
   try {
     await player.play()
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error(error)
   }
 }

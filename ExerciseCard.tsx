@@ -3,9 +3,9 @@ import React, { memo } from 'react'
 import MarkdownWrapper from './MarkdownWrapper'
 
 export default memo(function ExerciseCard(props: {
+  description: string
   isNext: boolean
   name: string
-  description: string
   repetitions: number
 }) {
   return (
@@ -19,10 +19,10 @@ export default memo(function ExerciseCard(props: {
       {props.description && (
         <Box
           bg="$backgroundDark950"
-          padding="$2"
-          paddingTop="$0"
-          paddingBottom="$2"
           marginBottom="$2"
+          padding="$2"
+          paddingBottom="$2"
+          paddingTop="$0"
         >
           <MarkdownWrapper>{props.description}</MarkdownWrapper>
         </Box>

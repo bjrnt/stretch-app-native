@@ -3,30 +3,30 @@ import MarkdownWrapper from './MarkdownWrapper'
 import { memo } from 'react'
 
 export default memo(function RoutineCard({
-  name,
   description,
+  name,
 }: {
-  name: string
   description: string
+  name: string
 }) {
   return (
     <Box
-      paddingTop="$2"
-      paddingBottom="$2"
       bg="$backgroundDark900"
-      borderRadius="$lg"
       borderColor="$borderDark800"
+      borderRadius="$lg"
       borderWidth="$1"
+      paddingBottom="$2"
+      paddingTop="$2"
     >
-      <Heading paddingLeft="$2" paddingBottom="$2">
+      <Heading paddingBottom="$2" paddingLeft="$2">
         {name}
       </Heading>
       <Box
         bg="$backgroundDark950"
-        padding="$2"
-        paddingTop="$0"
-        paddingBottom="$2"
         marginBottom="$2"
+        padding="$2"
+        paddingBottom="$2"
+        paddingTop="$0"
       >
         <MarkdownWrapper>{description}</MarkdownWrapper>
       </Box>

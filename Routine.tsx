@@ -16,6 +16,7 @@ import { Exercise, Stretch } from './Data'
 import TaskCard from './TaskCard'
 import { useAudioPlayer } from 'expo-audio'
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const dingSound = require('./assets/ding.m4a')
 
 export default function Routine(props: {
@@ -77,6 +78,7 @@ export default function Routine(props: {
     setLastTickAt(Date.now())
   }, [props.tasks])
 
+  // eslint-disable-next-line @nkzw/require-use-effect-arguments
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       const now = Date.now()
@@ -140,13 +142,13 @@ export default function Routine(props: {
       {currentTask && (
         <TaskCard
           isNext={false}
-          key={currentTask.name + currentTask.set ?? ''}
+          key={currentTask.name + currentTask.set}
           millisecondsLeft={currentMsRemaining}
           task={currentTask}
         />
       )}
       {remainingTasks.map((task) => (
-        <TaskCard isNext key={task.name + task.set ?? ''} task={task} />
+        <TaskCard isNext key={task.name + task.set} task={task} />
       ))}
     </VStack>
   )
