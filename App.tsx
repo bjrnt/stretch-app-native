@@ -1,3 +1,4 @@
+import { useKeepAwake } from 'expo-keep-awake'
 import { StatusBar } from 'expo-status-bar'
 import RoutineBuilder from './RoutineBuilder'
 import React, { useState } from 'react'
@@ -138,6 +139,9 @@ const routines = {
 export default function App() {
   const [selectedRoutine, setSelectedRoutine] =
     useState<keyof typeof routines>('General')
+
+  // Prevent the screen from sleeping
+  useKeepAwake()
 
   const routine = routines[selectedRoutine]
   return (
