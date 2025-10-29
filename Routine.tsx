@@ -24,7 +24,7 @@ export default function Routine(props: {
   name: string
   tasks: (Stretch | Exercise)[]
 }) {
-  const player = useAudioPlayer(dingSound)
+  const player = useAudioPlayer(dingSound, { downloadFirst: true })
   const [isPaused, setPaused] = useState(true)
   const [currentTask, setCurrentTask] = useState<
     Stretch | Exercise | undefined
