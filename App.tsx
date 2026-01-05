@@ -11,6 +11,23 @@ import RoutinePicker from './RoutinePicker'
 // Icons: https://lucide.dev/icons/
 
 const routines = {
+  Extended: new RoutineBuilder('Extended', '')
+    .withDefaultLength(120)
+    .withStretches(
+      { eachSide: true, name: 'Hip Flexor Stretch' },
+      { name: 'Elephant Walk' },
+      { duration: 60, name: 'Hamstring Stretch' },
+      { name: 'Pancake Stretch' },
+      { eachSide: true, name: 'Figure Four Stretch' },
+      { name: 'Lat Stretch' },
+      { eachSide: true, name: 'Side Stretch' },
+      { eachSide: true, name: 'Seated Twist Stretch' },
+      { eachSide: true, name: 'Pigeon Pose' },
+      { eachSide: true, name: 'Goal Post Arms' },
+      { eachSide: true, name: 'Neck Stretch' },
+      { eachSide: true, name: 'Calf Stretch' }
+    )
+    .build(),
   General: new RoutineBuilder('General', '')
     .withDefaultLength(60)
     .withStretches(
@@ -28,6 +45,7 @@ const routines = {
       { eachSide: true, name: 'Calf Stretch' }
     )
     .build(),
+
   HipFlexors: new RoutineBuilder(
     'Hip Flexors',
     'https://www.youtube.com/shorts/q_3OLvzkBZg'
