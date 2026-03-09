@@ -18,13 +18,18 @@ import { useAudioPlayer } from 'expo-audio'
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const dingSound = require('./assets/ding.m4a')
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const woodblockSound = require('./assets/woodblock.wav')
 
 export default function Routine(props: {
   description: string
   name: string
   tasks: (Stretch | Exercise)[]
 }) {
-  const player = useAudioPlayer(dingSound, { downloadFirst: true })
+  const dingPlayer = useAudioPlayer(dingSound, { downloadFirst: true })
+  const woodblockPlayer = useAudioPlayer(woodblockSound, {
+    downloadFirst: true,
+  })
   const [isPaused, setPaused] = useState(true)
   const [currentTask, setCurrentTask] = useState<
     Stretch | Exercise | undefined
@@ -41,6 +46,8 @@ export default function Routine(props: {
   const [lastTickAt, setLastTickAt] = useState(Date.now())
 
   function goToNext() {
+    const pauseAfterCurrent = currentTask?.pauseAfter === true
+
     // Done
     if (remainingTasks.length === 0) {
       setCurrentMsRemaining(undefined)
@@ -58,11 +65,16 @@ export default function Routine(props: {
     if (nextTask.type === 'Stretch') {
       setCurrentMsRemaining(nextTask.duration * 1000)
 
-      if (currentTask?.type === 'Exercise') {
+      if (currentTask?.type === 'Exercise' || pauseAfterCurrent) {
         setPaused(true)
       }
     } else if (nextTask.type === 'Exercise') {
       setCurrentMsRemaining(undefined)
+    }
+
+    if (pauseAfterCurrent) {
+      woodblockPlayer.seekTo(0)
+      woodblockPlayer.play()
     }
   }
 
@@ -100,8 +112,8 @@ export default function Routine(props: {
           currentMsRemaining > 3000 &&
           currentMsRemaining - elapsedMs <= 3000
         ) {
-          player.seekTo(0)
-          player.play()
+          dingPlayer.seekTo(0)
+          dingPlayer.play()
         }
       }
     })
@@ -142,7 +154,7 @@ export default function Routine(props: {
       {currentTask && (
         <TaskCard
           isNext={false}
-          key={currentTask.name + currentTask.set}
+          key={props.name + currentTask.name + currentTask.set}
           millisecondsLeft={currentMsRemaining}
           task={currentTask}
         />

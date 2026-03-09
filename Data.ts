@@ -3,6 +3,7 @@ type TaskType = 'Stretch' | 'Exercise'
 interface Task {
   description?: string
   name: string
+  pauseAfter?: boolean
   set?: number
   type: TaskType
 }

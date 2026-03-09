@@ -16,15 +16,15 @@ const routines = {
     .withStretches(
       { eachSide: true, name: 'Hip Flexor Stretch' },
       { name: 'Elephant Walk' },
-      { duration: 60, name: 'Hamstring Stretch' },
-      { name: 'Pancake Stretch' },
-      { eachSide: true, name: 'Figure Four Stretch' },
-      { name: 'Lat Stretch' },
+      { duration: 60, name: 'Hamstring Stretch', pauseAfter: true },
+      { name: 'Pancake Stretch', pauseAfter: true },
+      { eachSide: true, name: 'Figure Four Stretch', pauseAfter: true },
+      { name: 'Lat Stretch', pauseAfter: true },
       { eachSide: true, name: 'Side Stretch' },
-      { eachSide: true, name: 'Seated Twist Stretch' },
+      { eachSide: true, name: 'Seated Twist Stretch', pauseAfter: true },
       { eachSide: true, name: 'Pigeon Pose' },
-      { eachSide: true, name: 'Goal Post Arms' },
-      { eachSide: true, name: 'Neck Stretch' },
+      { eachSide: true, name: 'Goal Post Arms', pauseAfter: true },
+      { eachSide: true, name: 'Neck Stretch', pauseAfter: true },
       { eachSide: true, name: 'Calf Stretch' }
     )
     .build(),
@@ -33,19 +33,18 @@ const routines = {
     .withStretches(
       { eachSide: true, name: 'Hip Flexor Stretch' },
       { name: 'Elephant Walk' },
-      { duration: 30, name: 'Hamstring Stretch' },
-      { name: 'Pancake Stretch' },
-      { eachSide: true, name: 'Figure Four Stretch' },
-      { name: 'Lat Stretch' },
+      { duration: 30, name: 'Hamstring Stretch', pauseAfter: true },
+      { name: 'Pancake Stretch', pauseAfter: true },
+      { eachSide: true, name: 'Figure Four Stretch', pauseAfter: true },
+      { name: 'Lat Stretch', pauseAfter: true },
       { eachSide: true, name: 'Side Stretch' },
-      { eachSide: true, name: 'Seated Twist Stretch' },
+      { eachSide: true, name: 'Seated Twist Stretch', pauseAfter: true },
       { eachSide: true, name: 'Pigeon Pose' },
-      { eachSide: true, name: 'Goal Post Arms' },
-      { eachSide: true, name: 'Neck Stretch' },
+      { eachSide: true, name: 'Goal Post Arms', pauseAfter: true },
+      { eachSide: true, name: 'Neck Stretch', pauseAfter: true },
       { eachSide: true, name: 'Calf Stretch' }
     )
     .build(),
-
   HipFlexors: new RoutineBuilder(
     'Hip Flexors',
     'https://www.youtube.com/shorts/q_3OLvzkBZg'
@@ -143,6 +142,7 @@ const routines = {
       {
         description: 'Hello!\nWhat is up?\n- [Lol](http://google.com)\n',
         name: 'Test1',
+        pauseAfter: true,
       },
       { name: 'Test2' }
     )

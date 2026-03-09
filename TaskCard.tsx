@@ -20,6 +20,7 @@ export default memo(
           isNext={props.isNext}
           millisecondsLeft={props.millisecondsLeft}
           name={stretch.name}
+          pauseAfter={stretch.pauseAfter}
         />
       )
     } else if (props.task.type === 'Exercise') {
@@ -29,6 +30,7 @@ export default memo(
           description={exercise.description ?? ''}
           isNext={props.isNext}
           name={exercise.name}
+          pauseAfter={exercise.pauseAfter}
           repetitions={exercise.repetitions}
         />
       )
