@@ -24,7 +24,7 @@ const woodblockSound = require('./assets/woodblock.wav')
 export default function Routine(props: {
   description: string
   name: string
-  tasks: (Stretch | Exercise)[]
+  tasks: Array<Stretch | Exercise>
 }) {
   const dingPlayer = useAudioPlayer(dingSound, { downloadFirst: true })
   const woodblockPlayer = useAudioPlayer(woodblockSound, {
@@ -34,15 +34,16 @@ export default function Routine(props: {
   const [currentTask, setCurrentTask] = useState<
     Stretch | Exercise | undefined
   >(props.tasks[0])
-  const [remainingTasks, setRemainingTasks] = useState<(Stretch | Exercise)[]>(
-    props.tasks.slice(1)
-  )
+  const [remainingTasks, setRemainingTasks] = useState<
+    Array<Stretch | Exercise>
+  >(props.tasks.slice(1))
   const [currentMsRemaining, setCurrentMsRemaining] = useState<
     number | undefined
   >(
     (props.tasks[0].type === 'Stretch' && props.tasks[0].duration * 1000) ||
-      undefined
+      undefined,
   )
+  // eslint-disable-next-line react-hooks-js/purity
   const [lastTickAt, setLastTickAt] = useState(Date.now())
 
   function goToNext() {
@@ -85,11 +86,12 @@ export default function Routine(props: {
     setRemainingTasks(props.tasks.slice(1))
     setCurrentMsRemaining(
       (props.tasks[0].type === 'Stretch' && props.tasks[0].duration * 1000) ||
-        undefined
+        undefined,
     )
     setLastTickAt(Date.now())
   }, [props.tasks])
 
+  // oxlint-disable-next-line @nkzw/require-use-effect-arguments
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       const now = Date.now()

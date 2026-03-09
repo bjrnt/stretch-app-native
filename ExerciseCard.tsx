@@ -1,23 +1,21 @@
-import { Box, Text, Heading, HStack } from '@gluestack-ui/themed'
-import React, { memo } from 'react'
-import MarkdownWrapper from './MarkdownWrapper'
-import { PauseCircleIcon } from 'lucide-react-native'
+import { Box, Text, Heading, HStack } from "@gluestack-ui/themed";
+import React, { memo } from "react";
+import MarkdownWrapper from "./MarkdownWrapper";
+import { PauseCircleIcon } from "lucide-react-native";
 
 export default memo(function ExerciseCard(props: {
-  description: string
-  isNext: boolean
-  name: string
-  pauseAfter?: boolean
-  repetitions: number
+  description: string;
+  isNext: boolean;
+  name: string;
+  pauseAfter?: boolean;
+  repetitions: number;
 }) {
   return (
     <Box>
       <Box paddingLeft="$2" paddingRight="$2">
         <HStack alignItems="center" justifyContent="space-between">
           <Heading color="$textLight200">{props.name}</Heading>
-          {props.pauseAfter && (
-            <PauseCircleIcon color="gray" opacity={0.6} size={20} />
-          )}
+          {props.pauseAfter && <PauseCircleIcon color="gray" opacity={0.6} size={20} />}
         </HStack>
         <Text marginBottom="$2" opacity="$80">
           Complete {props.repetitions} repetitions.
@@ -35,5 +33,5 @@ export default memo(function ExerciseCard(props: {
         </Box>
       )}
     </Box>
-  )
-})
+  );
+});

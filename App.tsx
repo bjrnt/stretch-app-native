@@ -25,7 +25,7 @@ const routines = {
       { eachSide: true, name: 'Pigeon Pose' },
       { eachSide: true, name: 'Goal Post Arms', pauseAfter: true },
       { eachSide: true, name: 'Neck Stretch', pauseAfter: true },
-      { eachSide: true, name: 'Calf Stretch' }
+      { eachSide: true, name: 'Calf Stretch' },
     )
     .build(),
   General: new RoutineBuilder('General', '')
@@ -42,12 +42,12 @@ const routines = {
       { eachSide: true, name: 'Pigeon Pose' },
       { eachSide: true, name: 'Goal Post Arms', pauseAfter: true },
       { eachSide: true, name: 'Neck Stretch', pauseAfter: true },
-      { eachSide: true, name: 'Calf Stretch' }
+      { eachSide: true, name: 'Calf Stretch' },
     )
     .build(),
   HipFlexors: new RoutineBuilder(
     'Hip Flexors',
-    'https://www.youtube.com/shorts/q_3OLvzkBZg'
+    'https://www.youtube.com/shorts/q_3OLvzkBZg',
   )
     .withDefaultLength(30)
     .withStretches(
@@ -64,7 +64,7 @@ const routines = {
         description: 'Hand on same side as raised foot',
         eachSide: true,
         name: 'Hip Flexor Stretch (Scorpion)',
-      }
+      },
     )
     .build(),
   Morning: new RoutineBuilder('Morning', '')
@@ -89,7 +89,7 @@ const routines = {
           'Bent knees for 5, then straighter legs. Tap knees on floor for reps.',
         name: 'Downward Dog Press with Bent Knees',
       },
-      { name: 'Bear Crawl' }
+      { name: 'Bear Crawl' },
     )
     .build(),
   Physio: new RoutineBuilder('Physio', '')
@@ -98,7 +98,7 @@ const routines = {
     .build(),
   Shoulders: new RoutineBuilder('Shoulder Health', '')
     .withDescription(
-      `- Based on [How I fixed Shoulder Pain & Imbalances](https://www.youtube.com/watch?v=i4ve0nuXz0M)`
+      `- Based on [How I fixed Shoulder Pain & Imbalances](https://www.youtube.com/watch?v=i4ve0nuXz0M)`,
     )
     .withSets(3)
     .withExercises(
@@ -121,7 +121,7 @@ const routines = {
         eachSide: true,
         name: 'Banded External Rotation',
         repetitions: 10,
-      }
+      },
     )
     .withStretches({
       duration: 20,
@@ -134,7 +134,7 @@ const routines = {
   
 - Test 1
 - Test 2
-- Test 3`
+- Test 3`,
     )
     .withDefaultLength(5)
     .withSets(10)
@@ -144,7 +144,7 @@ const routines = {
         name: 'Test1',
         pauseAfter: true,
       },
-      { name: 'Test2' }
+      { name: 'Test2' },
     )
     .withExercises({ name: 'Hello', repetitions: 3 })
     .build(),

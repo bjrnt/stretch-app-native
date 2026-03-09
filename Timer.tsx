@@ -1,17 +1,12 @@
-import { Box, Text } from '@gluestack-ui/themed'
-import { memo } from 'react'
-import { DimensionValue } from 'react-native'
+import { Box, Text } from "@gluestack-ui/themed";
+import { memo } from "react";
+import { DimensionValue } from "react-native";
 
-export default memo(function Timer(props: {
-  duration: number
-  millisecondsLeft: number
-}) {
-  const secondsLeft = Math.max(0, props.millisecondsLeft) / 1000
-  const percentFull: DimensionValue = `${
-    (100 * (props.duration - secondsLeft)) / props.duration
-  }%`
-  const isFewSecondsLeft = props.millisecondsLeft < 3000
-  const backgroundColor = isFewSecondsLeft ? '$orange500' : '$rose600'
+export default memo(function Timer(props: { duration: number; millisecondsLeft: number }) {
+  const secondsLeft = Math.max(0, props.millisecondsLeft) / 1000;
+  const percentFull: DimensionValue = `${(100 * (props.duration - secondsLeft)) / props.duration}%`;
+  const isFewSecondsLeft = props.millisecondsLeft < 3000;
+  const backgroundColor = isFewSecondsLeft ? "$orange500" : "$rose600";
   return (
     <Box bg="$backgroundDark800" h="$64">
       <Box bg={backgroundColor} h="$64" w={percentFull}></Box>
@@ -28,5 +23,5 @@ export default memo(function Timer(props: {
         </Text>
       </Box>
     </Box>
-  )
-})
+  );
+});

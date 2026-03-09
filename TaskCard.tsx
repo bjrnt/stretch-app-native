@@ -1,41 +1,41 @@
-import { Box } from '@gluestack-ui/themed'
-import React, { memo } from 'react'
-import { Exercise, Stretch } from './Data'
-import StretchCard from './StretchCard'
-import ExerciseCard from './ExerciseCard'
+import { Box } from "@gluestack-ui/themed";
+import React, { memo } from "react";
+import { Exercise, Stretch } from "./Data";
+import StretchCard from "./StretchCard";
+import ExerciseCard from "./ExerciseCard";
 
 export default memo(
   function TaskCard(props: {
-    isNext: boolean
-    millisecondsLeft?: number
-    task: Stretch | Exercise
+    isNext: boolean;
+    millisecondsLeft?: number;
+    task: Stretch | Exercise;
   }) {
-    let content = null
-    if (props.task.type === 'Stretch') {
-      const stretch = props.task as Stretch
+    let content = null;
+    if (props.task.type === "Stretch") {
+      const stretch = props.task as Stretch;
       content = (
         <StretchCard
-          description={stretch.description ?? ''}
+          description={stretch.description ?? ""}
           duration={stretch.duration}
           isNext={props.isNext}
           millisecondsLeft={props.millisecondsLeft}
           name={stretch.name}
           pauseAfter={stretch.pauseAfter}
         />
-      )
-    } else if (props.task.type === 'Exercise') {
-      const exercise = props.task as Exercise
+      );
+    } else if (props.task.type === "Exercise") {
+      const exercise = props.task as Exercise;
       content = (
         <ExerciseCard
-          description={exercise.description ?? ''}
+          description={exercise.description ?? ""}
           isNext={props.isNext}
           name={exercise.name}
           pauseAfter={exercise.pauseAfter}
           repetitions={exercise.repetitions}
         />
-      )
+      );
     } else {
-      throw new Error(`can't render task: ${JSON.stringify(props.task)}`)
+      throw new Error(`can't render task: ${JSON.stringify(props.task)}`);
     }
 
     return (
@@ -49,13 +49,13 @@ export default memo(
       >
         {content}
       </Box>
-    )
+    );
   },
   (prevProps, nextProps) => {
     return (
       prevProps.isNext == nextProps.isNext &&
       prevProps.millisecondsLeft == nextProps.millisecondsLeft &&
       prevProps.task.name == nextProps.task.name
-    )
-  }
-)
+    );
+  },
+);

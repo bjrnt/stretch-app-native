@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Select,
   SelectTrigger,
@@ -11,8 +11,8 @@ import {
   SelectBackdrop,
   SelectContent,
   Box,
-} from '@gluestack-ui/themed'
-import { ChevronDownIcon } from 'lucide-react-native'
+} from "@gluestack-ui/themed";
+import { ChevronDownIcon } from "lucide-react-native";
 
 export default function RoutinePicker<T>({
   labels,
@@ -20,10 +20,10 @@ export default function RoutinePicker<T>({
   routines,
   selectedValue,
 }: {
-  labels: string[]
-  onValueChange: (value: string) => void
-  routines: string[]
-  selectedValue: string
+  labels: Array<string>;
+  onValueChange: (value: string) => void;
+  routines: Array<string>;
+  selectedValue: string;
 }) {
   return (
     <Box paddingBottom="$2">
@@ -39,15 +39,11 @@ export default function RoutinePicker<T>({
               <SelectDragIndicator />
             </SelectDragIndicatorWrapper>
             {routines.map((routineName, idx) => (
-              <SelectItem
-                key={routineName}
-                label={labels[idx]}
-                value={routineName}
-              />
+              <SelectItem key={routineName} label={labels[idx]} value={routineName} />
             ))}
           </SelectContent>
         </SelectPortal>
       </Select>
     </Box>
-  )
+  );
 }
