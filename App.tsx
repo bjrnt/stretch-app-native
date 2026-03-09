@@ -170,7 +170,7 @@ export default function App() {
           <RoutinePicker
             labels={Object.values(routines).map((r) => r.name)}
             onValueChange={(value) => {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              // eslint-disable-next-line typescript-eslint/no-explicit-any
               setSelectedRoutine(value as any)
             }}
             routines={Object.keys(routines)}

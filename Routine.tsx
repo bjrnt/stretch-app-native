@@ -16,9 +16,9 @@ import { Exercise, Stretch } from './Data'
 import TaskCard from './TaskCard'
 import { useAudioPlayer } from 'expo-audio'
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+// eslint-disable-next-line typescript-eslint/no-require-imports
 const dingSound = require('./assets/ding.m4a')
-// eslint-disable-next-line @typescript-eslint/no-require-imports
+// eslint-disable-next-line typescript-eslint/no-require-imports
 const woodblockSound = require('./assets/woodblock.wav')
 
 export default function Routine(props: {
@@ -90,7 +90,6 @@ export default function Routine(props: {
     setLastTickAt(Date.now())
   }, [props.tasks])
 
-  // eslint-disable-next-line @nkzw/require-use-effect-arguments
   useEffect(() => {
     const id = requestAnimationFrame(() => {
       const now = Date.now()
