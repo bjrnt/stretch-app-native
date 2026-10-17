@@ -55,7 +55,7 @@ export default memo(
     return (
       prevProps.isNext == nextProps.isNext &&
       prevProps.millisecondsLeft == nextProps.millisecondsLeft &&
-      prevProps.task.name == nextProps.task.name
+      prevProps.task == nextProps.task
     );
   },
 );

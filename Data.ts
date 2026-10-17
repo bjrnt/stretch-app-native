@@ -13,7 +13,8 @@ export interface Stretch extends Task {
 }
 
 export interface Exercise extends Task {
-  repetitions: number;
+  // A number renders as "Complete N repetitions."; a string as "Complete <string>."
+  repetitions: number | string;
   type: "Exercise";
 }
 

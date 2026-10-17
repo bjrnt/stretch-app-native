@@ -30,6 +30,11 @@ export default class RoutineBuilder {
     return this;
   }
 
+  public withTasks(...tasks: Array<StretchConfig | ExerciseConfig>): RoutineBuilder {
+    this._tasks.push(...tasks);
+    return this;
+  }
+
   public withSets(sets: number): RoutineBuilder {
     this._sets = sets;
     return this;

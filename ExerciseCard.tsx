@@ -8,7 +8,7 @@ export default memo(function ExerciseCard(props: {
   isNext: boolean;
   name: string;
   pauseAfter?: boolean;
-  repetitions: number;
+  repetitions: number | string;
 }) {
   return (
     <Box>
@@ -18,7 +18,9 @@ export default memo(function ExerciseCard(props: {
           {props.pauseAfter && <PauseCircleIcon color="gray" opacity={0.6} size={20} />}
         </HStack>
         <Text marginBottom="$2" opacity="$80">
-          Complete {props.repetitions} repetitions.
+          {typeof props.repetitions === "number"
+            ? `Complete ${props.repetitions} repetitions.`
+            : `Complete ${props.repetitions}.`}
         </Text>
       </Box>
       {props.description && (

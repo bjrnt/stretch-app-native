@@ -1,3 +1,4 @@
+import rightSideRoutines from "./RightSideRoutines";
 import RoutineBuilder from "./RoutineBuilder";
 
 export default {
@@ -155,6 +156,7 @@ _1–2 sets_`,
     .withDefaultLength(120)
     .withStretches({ name: "Child's Pose" }, { name: "Happy Baby" })
     .build(),
+  ...rightSideRoutines,
   Shoulders: new RoutineBuilder("Shoulder Health", "")
     .withDescription(
       `- Based on [How I fixed Shoulder Pain & Imbalances](https://www.youtube.com/watch?v=i4ve0nuXz0M)`,
