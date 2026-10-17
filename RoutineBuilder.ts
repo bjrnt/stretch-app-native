@@ -49,7 +49,7 @@ export default class RoutineBuilder {
     const tasks: Array<Stretch | Exercise> = Array.from({ length: this._sets }, (_, i) =>
       this._tasks.map((stretch) => {
         if (this._sets > 1) {
-          return { ...stretch, set: i + 1 };
+          return { ...stretch, set: i + 1, sets: this._sets };
         }
         return stretch;
       }),
@@ -57,14 +57,8 @@ export default class RoutineBuilder {
       .flat()
       .flatMap((config) => {
         if (config.eachSide) {
-          const left = {
-            ...config,
-            name: config.name + " (Left Side)",
-          };
-          const right = {
-            ...config,
-            name: config.name + " (Right Side)",
-          };
+          const left = { ...config, side: "Left" as const };
+          const right = { ...config, side: "Right" as const };
           delete left.eachSide;
           delete right.eachSide;
           return [left, right];

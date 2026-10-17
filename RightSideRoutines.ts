@@ -1,4 +1,4 @@
-import { ExerciseConfig, StretchConfig } from "./Data";
+import { ExerciseConfig, Side, StretchConfig } from "./Data";
 import RoutineBuilder from "./RoutineBuilder";
 
 // Routines from the "Right-Side Tightness Plan" (2026-10-17).
@@ -13,22 +13,26 @@ function reps(name: string, repetitions: number | string, description: string): 
   return { description, name, repetitions, type: "Exercise" };
 }
 
+function right(task: TaskConfig): TaskConfig {
+  return { ...task, side: "Right" };
+}
+
 // Repeats the tasks as a circuit, numbering each set.
 function sets(count: number, ...tasks: Array<TaskConfig>): Array<TaskConfig> {
   return Array.from({ length: count }, (_, i) =>
-    tasks.map((task) => ({ ...task, name: `${task.name} (${i + 1}/${count})` })),
+    tasks.map((task) => ({ ...task, set: i + 1, sets: count })),
   ).flat();
 }
 
-function sideLabel(side: string, i: number, count: number): string {
-  return count > 1 ? `${side} ${i + 1}/${count}` : side;
+function onSide(task: TaskConfig, side: Side, i: number, count: number): TaskConfig {
+  return count > 1 ? { ...task, set: i + 1, sets: count, side } : { ...task, side };
 }
 
 // Alternates sides starting on the right, so extra right-side sets come last.
 function sides(task: TaskConfig, right: number, left: number): Array<TaskConfig> {
   return Array.from({ length: Math.max(right, left) }, (_, i) => [
-    ...(i < right ? [{ ...task, name: `${task.name} (${sideLabel("Right", i, right)})` }] : []),
-    ...(i < left ? [{ ...task, name: `${task.name} (${sideLabel("Left", i, left)})` }] : []),
+    ...(i < right ? [onSide(task, "Right", i, right)] : []),
+    ...(i < left ? [onSide(task, "Left", i, left)] : []),
   ]).flat();
 }
 
@@ -38,10 +42,11 @@ const rules = `**Release, then load.** Releases (R1–R3) open a window of about
 
 // Release techniques
 
-const r1 = reps(
-  "R1 Hip Internal Rotation Hold-Relax (Right)",
-  "3 rounds",
-  `**Purpose:** quiets the guarding in the right deep hip rotators, so the right hip can rotate inward.
+const r1 = right(
+  reps(
+    "R1 Hip Internal Rotation Hold-Relax",
+    "3 rounds",
+    `**Purpose:** quiets the guarding in the right deep hip rotators, so the right hip can rotate inward.
 
 **Setup:** sit on a high surface (counter, table, high bed) so both feet hang freely. Sit tall on both sit bones. Thighs parallel, hip-width apart, knees at 90°.
 
@@ -59,12 +64,14 @@ const r1 = reps(
 **Standing version:** stand on the left leg, a hand on a desk or wall. Right foot on a chair seat, hip and knee at about 90°, knee pointing ahead. Keep the knee in place and swing the foot outward, then do the same press, relax, swing sequence. Keep the pelvis level and facing forward.
 
 **Normal:** a stretch at the outside or back of the hip, or the top front of the thigh. A pinch deep at the front of the hip means you've gone too far; back off a little.`,
+  ),
 );
 
-const r2 = hold(
-  "R2 Pec Minor Ball Release (Right)",
-  60,
-  `**Purpose:** reduces the pec minor tension that pulls the right shoulder blade forward.
+const r2 = right(
+  hold(
+    "R2 Pec Minor Ball Release",
+    60,
+    `**Purpose:** reduces the pec minor tension that pulls the right shoulder blade forward.
 
 **Find the spot:** follow the right collarbone outward. About 2–3 cm below its outer end is a bony knob (the coracoid). Work just below and slightly inward of it, on the front of the chest. Do **not** work inside the armpit hollow.
 
@@ -76,24 +83,28 @@ const r2 = hold(
 **Stop if** you get tingling, numbness, coldness or a dead feeling in the arm or hand.
 
 **Afterward:** note how many hours the shoulder stays "back".`,
+  ),
 );
 
-const r3Tfl = hold(
-  "R3 TFL Ball Release (Right)",
-  60,
-  `**Find it:** the bony point at the front of your pelvis, where your belt rubs. TFL is the palm-sized muscle just below and slightly outside it.
+const r3Tfl = right(
+  hold(
+    "R3 TFL Ball Release",
+    60,
+    `**Find it:** the bony point at the front of your pelvis, where your belt rubs. TFL is the palm-sized muscle just below and slightly outside it.
 
 1. Lie face down, ball under that spot, then turn slightly onto the front-outer right hip. Support yourself on your forearms.
 2. Hold a tender point 20–30 seconds, breathing slowly.
 3. Bend the right knee to 90° and slowly swing the shin side to side 6–8 times.
 
 **Avoid** pressing directly on bone.`,
+  ),
 );
 
-const r3GluteMed = hold(
-  "R3 Glute Med Ball Release (Right)",
-  60,
-  `**Find it:** the upper outer buttock, between the top rim of the pelvis and the bony bump on the side of the upper thigh.
+const r3GluteMed = right(
+  hold(
+    "R3 Glute Med Ball Release",
+    60,
+    `**Find it:** the upper outer buttock, between the top rim of the pelvis and the bony bump on the side of the upper thigh.
 
 1. Lie on your back with knees bent. Ball under the upper outer right buttock, then roll slightly onto your right side to add pressure.
 2. Hold a tender spot 20–30 seconds.
@@ -102,6 +113,7 @@ const r3GluteMed = hold(
 **Lighter pressure:** do it standing with the ball against a wall.
 
 **Avoid** pressing directly on the pelvic rim or the bump on the side of the thigh.`,
+  ),
 );
 
 // Hip exercises
@@ -500,33 +512,43 @@ Breathe as in T2: in through the nose for about 4 seconds, widening the lower ri
       ),
       r3Tfl,
       r3GluteMed,
-      hold(
-        "Spine Peanut Ball (Right Side)",
-        120,
-        `Lie on your back with the peanut ball across your spine, one ball on each side, starting at mid-back. Cross your arms over your chest to spread the shoulder blades. Hold 30 seconds, then move the ball up one vertebra at a time, to the base of the neck.`,
+      right(
+        hold(
+          "Spine Peanut Ball",
+          120,
+          `Lie on your back with the peanut ball across your spine, one ball on each side, starting at mid-back. Cross your arms over your chest to spread the shoulder blades. Hold 30 seconds, then move the ball up one vertebra at a time, to the base of the neck.`,
+        ),
       ),
-      hold(
-        "Shoulder Blade Ball Release (Right)",
-        60,
-        `Lie on your back, knees bent, a single ball under the sore spot between the right shoulder blade and spine. Reach the right arm across your chest to open the area up. Hold tender spots.`,
+      right(
+        hold(
+          "Shoulder Blade Ball Release",
+          60,
+          `Lie on your back, knees bent, a single ball under the sore spot between the right shoulder blade and spine. Reach the right arm across your chest to open the area up. Hold tender spots.`,
+        ),
       ),
       r2,
-      hold(
-        "Front Thigh Foam Roll (Right)",
-        60,
-        `Lie face down with the foam roller under the front of the right thigh, from just below the hip bone to mid-thigh. Roll slowly, pausing on tender spots.`,
+      right(
+        hold(
+          "Front Thigh Foam Roll",
+          60,
+          `Lie face down with the foam roller under the front of the right thigh, from just below the hip bone to mid-thigh. Roll slowly, pausing on tender spots.`,
+        ),
       ),
-      hold(
-        "Lat Foam Roll (Right)",
-        60,
-        `Lie on your right side with the foam roller just below the armpit and your right arm overhead. Roll a short range, a hand's width.`,
+      right(
+        hold(
+          "Lat Foam Roll",
+          60,
+          `Lie on your right side with the foam roller just below the armpit and your right arm overhead. Roll a short range, a hand's width.`,
+        ),
       ),
-      hold(
-        "Psoas Release (Right, Optional)",
-        90,
-        `Lie face down with the psoas tool just inside the right front hip bone, to the side of your belly button. Sink in slowly and breathe for 60–90 seconds.
+      right(
+        hold(
+          "Psoas Release (Optional)",
+          90,
+          `Lie face down with the psoas tool just inside the right front hip bone, to the side of your belly button. Sink in slowly and breathe for 60–90 seconds.
 
 **Stop if** you feel a pulse under the tool, sharp pain or nausea.`,
+        ),
       ),
       r1,
       ...sides(h11, 2, 0),
@@ -559,15 +581,19 @@ Breathe as in T2: in through the nose for about 4 seconds, widening the lower ri
         2,
         0,
       ),
-      hold(
-        "Neck Side Tilt (Right)",
-        30,
-        `Gentle. Seated, hold the edge of the chair seat with your right hand. Tilt your left ear toward your left shoulder.`,
+      right(
+        hold(
+          "Neck Side Tilt",
+          30,
+          `Gentle. Seated, hold the edge of the chair seat with your right hand. Tilt your left ear toward your left shoulder.`,
+        ),
       ),
-      hold(
-        "Neck Turn (Right)",
-        30,
-        `Gentle. Still holding the chair seat with your right hand, turn your nose toward your left armpit.`,
+      right(
+        hold(
+          "Neck Turn",
+          30,
+          `Gentle. Still holding the chair seat with your right hand, turn your nose toward your left armpit.`,
+        ),
       ),
       { ...t1Right, repetitions: "8 slow repetitions" },
       reps(

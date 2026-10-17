@@ -1,44 +1,58 @@
-import { useKeepAwake } from 'expo-keep-awake'
-import { StatusBar } from 'expo-status-bar'
-import React, { useState } from 'react'
-import { GluestackUIProvider, Box, ScrollView } from '@gluestack-ui/themed'
-import { config } from '@gluestack-ui/config'
-import Routine from './Routine'
-import RoutinePicker from './RoutinePicker'
-import routines from './Routines'
-
-// UI: https://gluestack.io/ui/docs/
-// Icons: https://lucide.dev/icons/
+import { useFonts } from "expo-font";
+import { useKeepAwake } from "expo-keep-awake";
+import { StatusBar } from "expo-status-bar";
+import { useEffect, useState } from "react";
+import { BackHandler, View } from "react-native";
+import HomeScreen from "./HomeScreen";
+import { RoutineKey } from "./Library";
+import SessionScreen from "./SessionScreen";
+import { fontFiles, usePalette } from "./theme";
 
 export default function App() {
-  const [selectedRoutine, setSelectedRoutine] =
-    useState<keyof typeof routines>('General')
+  const palette = usePalette();
+  const [fontsLoaded] = useFonts(fontFiles);
+  const [open, setOpen] = useState<RoutineKey | null>(null);
+  const [last, setLast] = useState<RoutineKey | null>(null);
 
   // Prevent the screen from sleeping
-  useKeepAwake()
+  useKeepAwake();
 
-  const routine = routines[selectedRoutine]
+  // Android back button returns from a session to the routine list
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    const subscription = BackHandler.addEventListener("hardwareBackPress", () => {
+      setOpen(null);
+      return true;
+    });
+    return () => subscription.remove();
+  }, [open]);
+
+  if (!fontsLoaded) {
+    return <View style={{ backgroundColor: palette.background, flex: 1 }} />;
+  }
+
   return (
-    <GluestackUIProvider colorMode="dark" config={config}>
-      <Box bg="$trueGray900" minHeight="100%">
-        <ScrollView padding="$2" paddingTop="$12">
-          <StatusBar style="auto" />
-          <RoutinePicker
-            labels={Object.values(routines).map((r) => r.name)}
-            onValueChange={(value) => {
-              // eslint-disable-next-line typescript-eslint/no-explicit-any
-              setSelectedRoutine(value as any)
-            }}
-            routines={Object.keys(routines)}
-            selectedValue={selectedRoutine}
-          />
-          <Routine
-            description={routine.description}
-            name={routine.name}
-            tasks={routine.tasks}
-          />
-        </ScrollView>
-      </Box>
-    </GluestackUIProvider>
-  )
+    <>
+      <StatusBar style="auto" />
+      {open ? (
+        <SessionScreen
+          key={open}
+          onClose={() => setOpen(null)}
+          palette={palette}
+          routineKey={open}
+        />
+      ) : (
+        <HomeScreen
+          current={last}
+          onSelect={(key) => {
+            setLast(key);
+            setOpen(key);
+          }}
+          palette={palette}
+        />
+      )}
+    </>
+  );
 }

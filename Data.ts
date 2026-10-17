@@ -1,10 +1,14 @@
 type TaskType = "Stretch" | "Exercise";
+export type Side = "Left" | "Right";
 
 interface Task {
   description?: string;
   name: string;
   pauseAfter?: boolean;
+  // Set number out of `sets`, when the task is repeated
   set?: number;
+  sets?: number;
+  side?: Side;
   type: TaskType;
 }
 export interface Stretch extends Task {
