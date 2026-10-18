@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Budget, budgets, groups, RoutineKey, routines } from "./Library";
+import { countThisWeek, daysDone, formatDaysAgo, SessionRecord, streak } from "./Log";
 import Paper, { bottomInset } from "./Paper";
 import { estimateMinutes } from "./Session";
 import { fonts, Palette } from "./theme";
@@ -8,11 +10,15 @@ export default function HomeScreen({
   current,
   onSelect,
   palette,
+  records,
 }: {
   current: RoutineKey | null;
   onSelect: (key: RoutineKey) => void;
   palette: Palette;
+  records: Array<SessionRecord>;
 }) {
+  // The screen remounts whenever a session closes, so this stays fresh
+  const [now] = useState(Date.now);
   const today = new Date().toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
@@ -41,8 +47,10 @@ export default function HomeScreen({
               <BudgetTiles
                 current={current}
                 keys={group.keys}
+                now={now}
                 onSelect={onSelect}
                 palette={palette}
+                records={records}
               />
             ) : (
               <View
@@ -51,38 +59,42 @@ export default function HomeScreen({
                   { backgroundColor: palette.surface, borderColor: palette.line },
                 ]}
               >
-                {group.keys.map((key, i) => (
-                  <Pressable
-                    accessibilityRole="button"
-                    key={key}
-                    onPress={() => onSelect(key)}
-                    style={({ pressed }) => [
-                      styles.row,
-                      i > 0 && {
-                        borderColor: palette.line,
-                        borderTopWidth: StyleSheet.hairlineWidth,
-                      },
-                      pressed && { backgroundColor: palette.accentSoft },
-                    ]}
-                  >
-                    <View style={styles.rowMain}>
-                      <Text
-                        style={[
-                          styles.rowName,
-                          { color: key === current ? palette.accent : palette.ink },
-                        ]}
-                      >
-                        {routines[key].name}
+                {group.keys.map((key, i) => {
+                  const [last] = daysDone(records, routines[key].tasks);
+                  return (
+                    <Pressable
+                      accessibilityRole="button"
+                      key={key}
+                      onPress={() => onSelect(key)}
+                      style={({ pressed }) => [
+                        styles.row,
+                        i > 0 && {
+                          borderColor: palette.line,
+                          borderTopWidth: StyleSheet.hairlineWidth,
+                        },
+                        pressed && { backgroundColor: palette.accentSoft },
+                      ]}
+                    >
+                      <View style={styles.rowMain}>
+                        <Text
+                          style={[
+                            styles.rowName,
+                            { color: key === current ? palette.accent : palette.ink },
+                          ]}
+                        >
+                          {routines[key].name}
+                        </Text>
+                        <Text style={[styles.small, { color: palette.muted }]}>
+                          {routines[key].tasks.length} steps
+                          {last != null && ` · last done ${formatDaysAgo(last, now)}`}
+                        </Text>
+                      </View>
+                      <Text style={[styles.rowTime, { color: palette.muted }]}>
+                        ~{estimateMinutes(routines[key].tasks)} min
                       </Text>
-                      <Text style={[styles.small, { color: palette.muted }]}>
-                        {routines[key].tasks.length} steps
-                      </Text>
-                    </View>
-                    <Text style={[styles.rowTime, { color: palette.muted }]}>
-                      ~{estimateMinutes(routines[key].tasks)} min
-                    </Text>
-                  </Pressable>
-                ))}
+                    </Pressable>
+                  );
+                })}
               </View>
             )}
           </View>
@@ -92,16 +104,44 @@ export default function HomeScreen({
   );
 }
 
+// How the plan target is going, like "2 this week" or "6-day streak"
+function progress(
+  key: RoutineKey,
+  keys: Array<RoutineKey>,
+  records: Array<SessionRecord>,
+  now: number,
+): { met: boolean; text: string } | null {
+  const target = budgets[key]?.target;
+  if (!target) {
+    return null;
+  }
+  if (target.per === "week") {
+    const count = countThisWeek(daysDone(records, routines[key].tasks), now);
+    return { met: count >= target.min, text: `${count} this week` };
+  }
+  const { doneToday, length } = streak(records, keys, now);
+  if (length === 0) {
+    return null;
+  }
+  // The filled mark says whether today is done
+  const text = length > 1 ? `${length}-day streak` : doneToday ? "Done today" : "Done yesterday";
+  return { met: doneToday, text };
+}
+
 function BudgetTiles({
   current,
   keys,
+  now,
   onSelect,
   palette,
+  records,
 }: {
   current: RoutineKey | null;
   keys: Array<RoutineKey>;
+  now: number;
   onSelect: (key: RoutineKey) => void;
   palette: Palette;
+  records: Array<SessionRecord>;
 }) {
   // Pair the tiles into rows; an odd one out spans the full width
   const rows: Array<Array<RoutineKey>> = [];
@@ -118,6 +158,7 @@ function BudgetTiles({
               key={key}
               onPress={() => onSelect(key)}
               palette={palette}
+              progress={progress(key, keys, records, now)}
               selected={key === current}
               wide={row.length === 1}
             />
@@ -132,18 +173,20 @@ function BudgetTile({
   budget,
   onPress,
   palette,
+  progress,
   selected,
   wide,
 }: {
   budget: Budget;
   onPress: () => void;
   palette: Palette;
+  progress: { met: boolean; text: string } | null;
   selected: boolean;
   wide: boolean;
 }) {
   return (
     <Pressable
-      accessibilityLabel={`${budget.name}, ${budget.minutes} minutes. ${budget.frequency}`}
+      accessibilityLabel={`${budget.name}, ${budget.minutes} minutes. ${budget.frequency}${progress ? `. ${progress.text}${progress.met ? ", target met" : ""}` : ""}`}
       accessibilityRole="button"
       onPress={onPress}
       style={({ pressed }) => [
@@ -166,6 +209,21 @@ function BudgetTile({
         <Text style={[styles.small, styles.frequency, { color: palette.muted }]}>
           {budget.frequency}
         </Text>
+        {progress && (
+          <View style={styles.progress}>
+            <View
+              style={[
+                styles.progressMark,
+                progress.met
+                  ? { backgroundColor: palette.done, borderColor: palette.done }
+                  : { borderColor: palette.muted },
+              ]}
+            />
+            <Text style={[styles.small, { color: progress.met ? palette.ink : palette.muted }]}>
+              {progress.text}
+            </Text>
+          </View>
+        )}
       </View>
     </Pressable>
   );
@@ -190,6 +248,8 @@ const styles = StyleSheet.create({
     fontVariant: ["tabular-nums"],
     lineHeight: 48,
   },
+  progress: { alignItems: "center", flexDirection: "row", gap: 6, marginTop: 6 },
+  progressMark: { borderRadius: 4, borderWidth: 1.5, height: 8, width: 8 },
   row: {
     alignItems: "center",
     flexDirection: "row",

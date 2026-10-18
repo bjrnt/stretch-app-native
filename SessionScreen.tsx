@@ -12,6 +12,7 @@ import {
   PreviousIcon,
 } from "./Icons";
 import { RoutineKey, routines } from "./Library";
+import { SessionRecord, stepKey } from "./Log";
 import Markdown from "./Markdown";
 import Paper, { bottomInset } from "./Paper";
 import RingTimer from "./RingTimer";
@@ -34,12 +35,18 @@ const gongSound = require("./assets/ding.m4a");
 // eslint-disable-next-line typescript-eslint/no-require-imports
 const woodblockSound = require("./assets/woodblock.wav");
 
+function newSession() {
+  return { id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, startedAt: Date.now() };
+}
+
 export default function SessionScreen({
   onClose,
+  onRecord,
   palette,
   routineKey,
 }: {
   onClose: () => void;
+  onRecord: (session: SessionRecord) => void;
   palette: Palette;
   routineKey: RoutineKey;
 }) {
@@ -56,6 +63,18 @@ export default function SessionScreen({
   const gong = useAudioPlayer(gongSound, { downloadFirst: true });
   const woodblock = useAudioPlayer(woodblockSound, { downloadFirst: true });
   const task = tasks[state.index];
+  const session = useRef(newSession());
+  const recorded = useRef(false);
+
+  // Save the completed steps as they change, so partial sessions count too
+  useEffect(() => {
+    const steps = tasks.filter((_, i) => state.statuses[i] === "done").map(stepKey);
+    if (steps.length === 0 && !recorded.current) {
+      return;
+    }
+    recorded.current = true;
+    onRecord({ ...session.current, routine: routineKey, steps, updatedAt: Date.now() });
+  }, [onRecord, routineKey, state.statuses, tasks]);
 
   const complete = useCallback(
     (at: number) => {
@@ -186,6 +205,9 @@ export default function SessionScreen({
         <PrimaryButton
           onPress={() => {
             if (!task) {
+              // Going again is a new session; the finished one stays recorded
+              session.current = newSession();
+              recorded.current = false;
               dispatch({ type: "restart" });
             } else if (task.type === "Stretch") {
               dispatch({ now: Date.now(), type: "toggle" });
