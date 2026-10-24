@@ -3,6 +3,7 @@ import { useKeepAwake } from "expo-keep-awake";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useState } from "react";
 import { BackHandler, View } from "react-native";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import HomeScreen from "./HomeScreen";
 import { RoutineKey } from "./Library";
 import { useLog } from "./Log";
@@ -36,7 +37,7 @@ export default function App() {
   }
 
   return (
-    <>
+    <SafeAreaProvider>
       <StatusBar style="auto" />
       {open ? (
         <SessionScreen
@@ -57,6 +58,6 @@ export default function App() {
           records={records}
         />
       )}
-    </>
+    </SafeAreaProvider>
   );
 }

@@ -1,18 +1,18 @@
-import Constants from "expo-constants";
 import { ReactNode } from "react";
 import { Image, StyleSheet, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Palette } from "./theme";
 
 // eslint-disable-next-line typescript-eslint/no-require-imports
 const hanji = require("./assets/hanji.png");
 
-export const topInset = Constants.statusBarHeight;
-// No safe-area module in the native build, so leave room for the home indicator
+// Fixed room for the home indicator
 export const bottomInset = 24;
 
 // Screen background: hanji paper with faint fibres, under a band of the five
 // traditional colours like painted temple eaves.
 export default function Paper({ children, palette }: { children: ReactNode; palette: Palette }) {
+  const { top } = useSafeAreaInsets();
   return (
     <View style={[styles.root, { backgroundColor: palette.background }]}>
       <Image
@@ -23,7 +23,7 @@ export default function Paper({ children, palette }: { children: ReactNode; pale
           { height: "100%", opacity: palette.textureOpacity, width: "100%" },
         ]}
       />
-      <View style={[styles.eave, { marginTop: topInset }]}>
+      <View style={[styles.eave, { marginTop: top }]}>
         {palette.eave.map((color) => (
           <View key={color} style={[styles.eaveBand, { backgroundColor: color }]} />
         ))}
