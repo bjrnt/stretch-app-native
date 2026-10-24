@@ -2,7 +2,7 @@
   "expo": {
     "name": "stretch-app-native",
     "slug": "stretchappnative",
-    "version": "2.1.0",
+    "version": "3.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
@@ -24,19 +24,12 @@
           "backgroundColor": "#ffffff"
         }
       ],
-      [
-        "expo-build-properties",
-        {
-          "ios": {
-            "enableSceneSupport": true
-          }
-        }
-      ]
+      "expo-font"
     ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.bjrnt.strech",
-      "runtimeVersion": "2.1.0"
+      "runtimeVersion": "3.0.0"
     },
     "android": {
       "adaptiveIcon": {

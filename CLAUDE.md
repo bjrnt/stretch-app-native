@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A personal stretching/exercise timer app built with Expo (SDK 57, React Native 0.86, React 19). It shows a list of routines, then walks through a routine one step at a time with a countdown ring for timed holds, rep targets for exercises, and gong/woodblock sounds. Updates ship over the air via EAS Update.
+A personal stretching/exercise timer app built with Expo (SDK 58, React Native 0.88, React 19). It shows a list of routines, then walks through a routine one step at a time with a countdown ring for timed holds, rep targets for exercises, and gong/woodblock sounds. Updates ship over the air via EAS Update.
 
 ## Commands
 
@@ -39,5 +39,5 @@ All source files live flat in the repo root; there is no `src/` and no navigatio
 The app runs in Expo Go, so no native build is needed to try a change. Native dependencies must be ones Expo Go ships for the current SDK (install them with `npx expo install` so versions match). The notes below only matter for standalone builds.
 
 - `ios/` is committed (prebuilt); there is no `android/` directory. After changing native config in `app.json` or adding native modules, the iOS project may need regenerating with `npx expo prebuild`.
-- OTA compatibility is keyed on `runtimeVersion` in `app.json` (`2.1.0` on iOS, `appVersion` policy on Android). Bump it when a change needs a new native build.
+- OTA compatibility is keyed on `runtimeVersion` in `app.json` (`3.0.0` on iOS, `appVersion` policy on Android). Bump it when a change needs a new native build.
 - Assets loaded with `require()` (fonts, sounds, `hanji.png`) need the `typescript-eslint/no-require-imports` lint rule disabled locally, as in the existing code.

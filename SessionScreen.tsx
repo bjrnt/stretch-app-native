@@ -1,6 +1,14 @@
 import { useAudioPlayer } from "expo-audio";
 import { ReactNode, useCallback, useEffect, useReducer, useRef, useState } from "react";
-import { Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  Modal,
+  Pressable,
+  ScrollView,
+  ScrollViewInstance,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import {
   BackIcon,
   CheckIcon,
@@ -59,7 +67,7 @@ export default function SessionScreen({
     initialSession,
   );
   const [showInfo, setShowInfo] = useState(false);
-  const scroll = useRef<ScrollView>(null);
+  const scroll = useRef<ScrollViewInstance>(null);
   const gong = useAudioPlayer(gongSound, { downloadFirst: true });
   const woodblock = useAudioPlayer(woodblockSound, { downloadFirst: true });
   const task = tasks[state.index];
