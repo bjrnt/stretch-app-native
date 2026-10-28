@@ -26,6 +26,7 @@ export const groups: Array<RoutineGroup> = [
       "RightSide30Min",
       "RightSide60Min",
       "RightSideBadDay",
+      "RightSideHeadPressure",
     ],
     title: "Right-side plan",
   },
@@ -64,7 +65,16 @@ export const budgets: Partial<Record<RoutineKey, Budget>> = {
     name: "Long session",
     target: { min: 1, per: "week" },
   },
-  RightSideBadDay: { frequency: "For relief on very sore days", minutes: "20–30", name: "Bad day" },
+  RightSideBadDay: {
+    frequency: "For relief on very sore days",
+    minutes: "20–30",
+    name: "Sore-body day",
+  },
+  RightSideHeadPressure: {
+    frequency: "Mornings with head pressure",
+    minutes: "25",
+    name: "Head-pressure day",
+  },
 };
 
 export { routines };

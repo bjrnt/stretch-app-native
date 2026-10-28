@@ -1,7 +1,7 @@
 import { ExerciseConfig, Side, StretchConfig } from "./Data";
 import RoutineBuilder from "./RoutineBuilder";
 
-// Routines from the "Right-Side Tightness Plan" (2026-10-17).
+// Routines from the "Right-Side Tightness Plan" (2026-10-17, revised 2026-10-27).
 
 type TaskConfig = StretchConfig | ExerciseConfig;
 
@@ -36,7 +36,7 @@ function sides(task: TaskConfig, right: number, left: number): Array<TaskConfig>
   ]).flat();
 }
 
-const rules = `**Release, then load.** Releases (R1–R3) open a window of about 20–30 minutes. Go straight into the strength and control work.
+const rules = `**Release, then load.** Releases (R1–R4) open a window of about 20–30 minutes. Go straight into the strength and control work.
 
 **Effort:** the last 2–3 reps are hard but your form holds. Muscle burn and fatigue are fine. Sharp pain, pinching at the front of the hip, or tingling and numbness in the arm or hand mean stop and modify.`;
 
@@ -113,6 +113,25 @@ const r3GluteMed = right(
 **Lighter pressure:** do it standing with the ball against a wall.
 
 **Avoid** pressing directly on the pelvic rim or the bump on the side of the thigh.`,
+  ),
+);
+
+const r4 = right(
+  hold(
+    "R4 Sternocleidomastoid Pinch-and-Hold",
+    60,
+    `**Purpose:** releases the right SCM, the muscle that reproduced your temple pressure on 2026-10-27. Stretching this muscle did little in the past; sustained pressure works better.
+
+**Find it:** turn your head to the left. The SCM is the rope-like muscle that stands out on the right side of your neck, running from just behind and below the ear down to the inner end of the collarbone.
+
+1. Turn your head slightly back toward the right to slacken the muscle.
+2. Gently pinch the muscle belly between thumb and fingers, lifting it slightly away from the deeper neck. Start near the collarbone.
+3. Find a tender spot and hold at about 4–5 out of 10 for 20–30 seconds, breathing slowly. Pressure spreading toward the temple or eye means you're on a relevant spot.
+4. Move 1–2 cm up the muscle and repeat, working up toward the ear. Total 60–90 seconds.
+
+**Safety:** pinch the muscle itself. Don't press into the front of the neck or anywhere you feel a pulse, because the carotid artery runs just inside the muscle. Stop if you feel dizzy or lightheaded, or notice vision changes.
+
+**Afterward:** retest chin-tucked neck rotation and note any change in head pressure.`,
   ),
 );
 
@@ -363,7 +382,9 @@ const s5 = reps(
 
 **Check:** fingertips on the front of your neck. The large ropey muscles there stay soft.
 
-**Common mistakes:** pushing the head back, lifting the head, clenching the jaw. Tongue on the roof of the mouth, teeth apart.`,
+**Common mistakes:** pushing the head back, lifting the head, clenching the jaw. Tongue on the roof of the mouth, teeth apart.
+
+**Test vs training:** this is the training. The weekly deep neck flexor hold, with the head lifted, is the test. Don't train with the head-lift version yet.`,
 );
 
 const s6 = reps(
@@ -403,6 +424,8 @@ const t2Description = `**Setup:** lie on your back, feet flat on a wall, hips an
 
 const t2 = hold("T2 90/90 Wall Breathing", 120, t2Description);
 
+const t2Breathing = `Breathe as in T2: in through the nose for about 4 seconds, widening the lower ribs; out through the mouth for 6–8 seconds, letting the ribs drop; pause 2–3 seconds.`;
+
 const t3 = reps(
   "T3 Thread the Needle",
   6,
@@ -415,6 +438,40 @@ const t3 = reps(
 **Keep it honest:** hips stay over the knees; the movement comes from your upper back.`,
 );
 
+// Bad-day releases and stretches
+
+const spinePeanutBall = right(
+  hold(
+    "Spine Peanut Ball",
+    120,
+    `Lie on your back with the peanut ball across your spine, one ball on each side, starting at mid-back. Cross your arms over your chest to spread the shoulder blades. Hold 30 seconds, then move the ball up one vertebra at a time, to the base of the neck.`,
+  ),
+);
+
+const shoulderBladeBall = right(
+  hold(
+    "Shoulder Blade Ball Release",
+    60,
+    `Lie on your back, knees bent, a single ball under the sore spot between the right shoulder blade and spine. Reach the right arm across your chest to open the area up. Hold tender spots.`,
+  ),
+);
+
+const neckSideTilt = right(
+  hold(
+    "Neck Side Tilt",
+    30,
+    `Gentle. Seated, hold the edge of the chair seat with your right hand. Tilt your left ear toward your left shoulder.`,
+  ),
+);
+
+const neckTurn = right(
+  hold(
+    "Neck Turn",
+    30,
+    `Gentle. Still holding the chair seat with your right hand, turn your nose toward your left armpit.`,
+  ),
+);
+
 // Routines
 
 const thirtyMinuteTasks: Array<TaskConfig> = [
@@ -422,6 +479,7 @@ const thirtyMinuteTasks: Array<TaskConfig> = [
   r2,
   r3Tfl,
   r3GluteMed,
+  r4,
   ...sets(2, h5),
   ...sides(h3(40), 2, 1),
   ...sides(h6, 3, 2),
@@ -454,6 +512,7 @@ ${rules}`,
     .withTasks(
       r1,
       r2,
+      r4,
       ...sides(h2, 2, 1),
       ...sides(h3(30), 2, 1),
       ...sides(h4, 3, 2),
@@ -508,24 +567,12 @@ ${rules}`,
         240,
         `Lie on your back with your calves resting on a couch or chair, hips and knees at 90°. This takes load off the hip flexors and lower back. 3–5 minutes.
 
-Breathe as in T2: in through the nose for about 4 seconds, widening the lower ribs; out through the mouth for 6–8 seconds, letting the ribs drop; pause 2–3 seconds.`,
+${t2Breathing}`,
       ),
       r3Tfl,
       r3GluteMed,
-      right(
-        hold(
-          "Spine Peanut Ball",
-          120,
-          `Lie on your back with the peanut ball across your spine, one ball on each side, starting at mid-back. Cross your arms over your chest to spread the shoulder blades. Hold 30 seconds, then move the ball up one vertebra at a time, to the base of the neck.`,
-        ),
-      ),
-      right(
-        hold(
-          "Shoulder Blade Ball Release",
-          60,
-          `Lie on your back, knees bent, a single ball under the sore spot between the right shoulder blade and spine. Reach the right arm across your chest to open the area up. Hold tender spots.`,
-        ),
-      ),
+      spinePeanutBall,
+      shoulderBladeBall,
       r2,
       right(
         hold(
@@ -581,26 +628,54 @@ Breathe as in T2: in through the nose for about 4 seconds, widening the lower ri
         2,
         0,
       ),
-      right(
-        hold(
-          "Neck Side Tilt",
-          30,
-          `Gentle. Seated, hold the edge of the chair seat with your right hand. Tilt your left ear toward your left shoulder.`,
-        ),
-      ),
-      right(
-        hold(
-          "Neck Turn",
-          30,
-          `Gentle. Still holding the chair seat with your right hand, turn your nose toward your left armpit.`,
-        ),
-      ),
+      neckSideTilt,
+      neckTurn,
       { ...t1Right, repetitions: "8 slow repetitions" },
       reps(
         "Easy Walk (Optional)",
         "an easy 15–20 minute walk",
         `Walking is fine on bad days and helps.`,
       ),
+    )
+    .build(),
+  RightSideHeadPressure: new RoutineBuilder(
+    "Right Side: Head Pressure",
+    `For mornings with pressure behind the eyes, foggy focus or light and sound sensitivity. It targets the neck rather than the hip. About 25 minutes.
+
+**Re-rate the pressure 30 minutes after finishing.** A drop of 2 or more points supports the muscle explanation. Note the result in the morning log.
+
+Skip strength work, avoid long head-down positions (they make the pressure worse), and walk if you can. An over-the-counter painkiller is fine occasionally, but taking painkillers on more than about 10 days a month can cause rebound headaches, so log when you take one.
+
+**See a doctor promptly** if headaches get progressively worse, wake you from sleep, reach full intensity within about a minute, or come with vision changes, weakness, numbness or confusion.`,
+  )
+    .withTasks(
+      reps(
+        "Rate the Pressure",
+        "0–10 rating",
+        `Rate the pressure 0–10 before starting, so you can tell whether the routine helped. Re-rate 30 minutes after finishing.`,
+      ),
+      right(
+        hold(
+          "Neck Heat",
+          900,
+          `Heat on the right neck and upper trap, 15–20 minutes, with a cloth layer between the pack and your skin. Don't fall asleep on it.`,
+        ),
+      ),
+      right(
+        hold(
+          "Easing Position Rest",
+          240,
+          `Rest with your head tilted right and slightly down, supported by a pillow. This slackens the right SCM and upper trap.
+
+${t2Breathing}`,
+        ),
+      ),
+      { ...r4, duration: 90 },
+      spinePeanutBall,
+      shoulderBladeBall,
+      { ...t1Right, repetitions: "8 gentle repetitions" },
+      neckSideTilt,
+      neckTurn,
     )
     .build(),
 };
